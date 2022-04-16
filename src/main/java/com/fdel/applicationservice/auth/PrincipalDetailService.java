@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.fdel.entity.User;
+import com.fdel.exception.message.UserMessage;
 import com.fdel.repository.UserRepository;
 
 
@@ -43,7 +44,8 @@ public class PrincipalDetailService implements UserDetailsService{
 		if(userEntity != null) {
 			return new PrincipalDetails(userEntity);
 		}
-		throw new UsernameNotFoundException("일치하는 유저를 찾을 수 없습니다.");
+		throw new UsernameNotFoundException(UserMessage
+					.USER_NOT_FOUND_MATCHING_THE_USERNAME.getMessage());
 	}
 
 }

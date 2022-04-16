@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fdel.applicationservice.auth.provider.Provider;
+import com.fdel.exception.message.SimpleMessage;
+import com.fdel.exception.message.UserMessage;
 import com.fdel.repository.converter.UserOAuthConverter;
 import com.fdel.repository.converter.UserRolesConverter;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
@@ -69,7 +71,8 @@ public class User {
 				.filter(e -> e.getRole().equals(stringRole))
 				.findAny()
 				.orElseThrow(()-> 
-					new IllegalArgumentException("일치하는 ROLE 타입이 존재하지 않습니다."));
+					new IllegalArgumentException(SimpleMessage
+							.NO_MATCHING_TYPES_FOUND.getMessage()));
 		}
 		
 		public static List<Role> StringListToRoleList(List<String> stringRoleList){
@@ -87,7 +90,8 @@ public class User {
 				||StringUtils.isBlank(email)
 				||roles.isEmpty()
 				||provider == null) {
-			throw new IllegalStateException("User 엔터티의 무결성이 위배되었습니다.");
+			throw new IllegalStateException(UserMessage
+						.INTEGRITY_OF_THE_USER_HAS_BEEN_VIOLATED.getMessage());
 		}
 	}
 	

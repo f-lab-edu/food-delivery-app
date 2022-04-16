@@ -2,6 +2,8 @@ package com.fdel.applicationservice.auth.provider;
 
 import java.util.Arrays;
 
+import com.fdel.exception.message.SimpleMessage;
+
 import lombok.Getter;
 
 /**
@@ -32,6 +34,8 @@ public enum Provider{
 		return Arrays.stream(Provider.values())
 			.filter(e -> e.getProvider().equals(provider))
 			.findAny()
-			.orElseThrow(()-> new IllegalArgumentException("일치하는 OAuth 타입이 존재하지 않습니다."));
+			.orElseThrow(()-> 
+				new IllegalArgumentException(SimpleMessage.
+						NO_MATCHING_TYPES_FOUND.getMessage()));
 	}
 }

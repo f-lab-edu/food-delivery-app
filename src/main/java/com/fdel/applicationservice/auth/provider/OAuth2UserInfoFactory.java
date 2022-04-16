@@ -5,6 +5,8 @@ import java.util.Map;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import com.fdel.exception.message.OAuth2UserRequestMessage;
+
 /**
  * provider에 따라 적합한 OAuth2UserInfo의 서브타입을 만들어주는 객체이다.
  */
@@ -39,7 +41,8 @@ public class OAuth2UserInfoFactory {
 			oAuth2UserInfo= new NaverUserInfo((Map<String, Object>) oauth2User
 				.getAttributes().get("response"));
 		} else {
-			throw new IllegalArgumentException("잘못된 OAuth2UserRequest 입니다.");
+			throw new IllegalArgumentException(OAuth2UserRequestMessage
+					.NOT_SUPPORTED_PROVIDER_REQUEST.getMessage());
 		}
 		
 		return oAuth2UserInfo;
