@@ -14,20 +14,18 @@ public class UserRolesConverter
 
 	@Override
 	public String convertToDatabaseColumn(List<Role> attribute) {
-		
-		List<String> StringRoleList = attribute.stream().map(e->e.getRole()).sorted().toList();
+		List<String> StringRoleList = attribute.stream()
+			.map(e->e.getRole()).sorted().toList();
 		
 		return String.join(",", StringRoleList);
 	}
 
 	@Override
 	public List<Role> convertToEntityAttribute(String dbData) {
-		
 		if(dbData.length() > 0){
             return Arrays.asList(dbData.split(",")).stream()
             		.map(e->Role.ofString(e)).toList();
         }
-		
 		return new ArrayList<Role>();
 	}
 

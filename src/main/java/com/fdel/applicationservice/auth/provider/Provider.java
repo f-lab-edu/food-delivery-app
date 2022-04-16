@@ -6,9 +6,11 @@ import lombok.Getter;
 
 @Getter
 public enum Provider{
+	
 	NONE("NONE"),
 	GOOGLE("GOOGLE"),
-	FACEBOOK("FACEBOOK");
+	FACEBOOK("FACEBOOK"),
+	NAVER("NAVER");
 	
 	private String provider;
 	
