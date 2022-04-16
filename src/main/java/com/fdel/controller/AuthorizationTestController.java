@@ -14,8 +14,9 @@ import com.fdel.applicationservice.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/*
- * 인증 그리고 인가에 대한 테스트 컨트롤러
+/**
+ * 인증 인가 테스트용 컨트롤러입니다.
+ * 나중에 삭제될 예정입니다.
  */
 @Slf4j
 @Controller

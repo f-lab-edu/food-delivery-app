@@ -7,6 +7,9 @@ import com.fdel.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 유저와 관련된 가장 기본적인 어플리케이션 서비스를 제공한다.
+ */
 @Service
 @RequiredArgsConstructor
 public class SimpleUserApplicationService implements UserApplicationService{

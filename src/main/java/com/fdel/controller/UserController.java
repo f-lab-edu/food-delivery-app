@@ -9,7 +9,9 @@ import com.fdel.controller.dto.JoinDto;
 
 import lombok.RequiredArgsConstructor;
 
-
+/**
+ * 유저의 로그인 및 회원가입 요청을 처리하는 컨트롤러입니다.
+ */
 @Controller
 @RequiredArgsConstructor
 public class UserController {

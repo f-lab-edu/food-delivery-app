@@ -2,7 +2,9 @@ package com.fdel.applicationservice.auth.provider;
 
 import java.util.Map;
 
-
+/**
+ * OAutho2로 인증된 FaceBook 사용자 정보를 담는다. 
+ */
 public class FaceBookUserInfo implements OAuth2UserInfo{
 
 	private Map<String, Object> attributes; //oauth2User.getAttributes()

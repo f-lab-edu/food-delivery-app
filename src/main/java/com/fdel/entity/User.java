@@ -23,6 +23,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 유저 Entity 클래스입니다.
+ */
 @Entity
 @Data
 @Builder
@@ -74,7 +77,10 @@ public class User {
 		}
 	}
 	
-	//스스로 무결성 검사를 한다.
+	/**
+	 * 스스로 각 필드의 무결성을 검증합니다.
+	 * DB에 저장되기 전에 호출됩니다.
+	 */
 	public void validateIntegrity() {
 		if(StringUtils.isBlank(username)
 				||StringUtils.isBlank(password)

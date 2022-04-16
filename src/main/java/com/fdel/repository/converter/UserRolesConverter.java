@@ -9,6 +9,10 @@ import javax.persistence.AttributeConverter;
 import com.fdel.entity.User;
 import com.fdel.entity.User.Role;
 
+/**
+ * User Entity의 roles 부분을 어플리케이션 type({@literal List<Role>})와
+ * 데이터베이스 type(String)간의 변환을 해줍니다. 
+ */
 public class UserRolesConverter 
 		implements AttributeConverter<List<User.Role>, String>{
 

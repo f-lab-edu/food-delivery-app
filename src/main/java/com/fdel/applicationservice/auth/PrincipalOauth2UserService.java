@@ -22,7 +22,10 @@ import com.fdel.entity.User.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-
+/**
+ * Oauth2 방식으로 인증을 할 때 사이트로부터 받은 Provider 정보, 사용자 정보를 사용해서
+ * 세션 정보에 유저 정보를 저장하고 필요하다면 가입도 시키는 서비스를 제공한다.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -44,6 +47,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 	 * -> 응답받은 사용자 정보를 키값으로 등록된 세션 정보가 있는지 확인
 	 * -> 없다면 repository로부터 DB에 등록된 회원인지 확인
 	 * -> 회원가입 되어 있지 않다면 회원가입 처리
+	 */
+	/**
+	 * OAuth2 인증 사이트로부터 받은 정보를 사용해서 세션과 DB에 사용자 정보를 등록한다.
+	 * 만약 이미 어플리케이션에 가입된 사용자라면 DB에 등록하는 과정은 생략한다.
+	 * 
+	 * @param userRequest OAuth2 인증 사이트로부터 받은 (provider + 사용자) 정보이다.
+	 * @return 세션에 저장할 PrincipalDetails 타입의 유저 정보를 반환한다.
 	 */
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) 
@@ -85,5 +95,4 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		return new PrincipalDetails(userEntity, oauth2User.getAttributes());
 	}
 
-	
 }

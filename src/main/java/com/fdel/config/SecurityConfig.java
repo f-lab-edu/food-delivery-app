@@ -13,6 +13,9 @@ import com.fdel.applicationservice.auth.PrincipalOauth2UserService;
  * @EnableWebSecurity 스프링 시큐리티 필터가 스프링 필터 체인에 등록되게 함
  * @EnableGlobalMethodSecurity secured 어노테이션 활성화, preAuthorize, postAuthorize 어노테이션 활성화
  */
+/**
+ * Spring Security를 설정합니다.
+ */
 @Configuration
 @EnableWebSecurity 
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) 
