@@ -4,7 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fdel.applicationservice.auth.provider.Provider;
-import com.fdel.controller.dto.JoinDto;
+import com.fdel.controller.requestdto.JoinDto;
 import com.fdel.entity.User;
 
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @RequiredArgsConstructor
-public class ApplicationLoginService {
+public class ApplicationJoinService {
 	
 	private final PasswordEncoder passwordEncoder;
 	private final UserApplicationService userApplicationService;
@@ -25,11 +25,10 @@ public class ApplicationLoginService {
 	 * 
 	 * @param joinDto form으로부터 받아온 정보다.
 	 */
-	public void registByJoinDto(JoinDto joinDto) {
+	public void regist(JoinDto joinDto) {
 		User user = joinDto.toUser(passwordEncoder);
-		user.setProvider(Provider.NONE);
-		user.validateIntegrity();
+		user.init(Provider.NONE);
 		userApplicationService.regist(user);
 	}
-
+	
 }

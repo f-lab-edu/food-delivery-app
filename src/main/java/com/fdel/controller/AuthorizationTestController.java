@@ -4,6 +4,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,11 +35,47 @@ public class AuthorizationTestController {
 		
 		if(authentication != null && principalDetails != null){
 			PrincipalDetails principalDetails2 = (PrincipalDetails) authentication.getPrincipal();
+			
+			String[] authorites= (String[])authentication
+					.getAuthorities().stream().map(e->e.getAuthority()).toArray(String[]::new);
+			
 			log.info("============App=============");
+			log.info("유저 권한 : {}", String.join(", ", authorites));
 			log.info("authentication : {}", principalDetails2.getUser());
 			log.info("principalDetails : {}", principalDetails.getUser());
 			return "세션 정보 확인";
 		} 
+		
+		/*
+		 * anonymous 유저인 경우 controller의 파라미터로 Authentication 객체와 principal 객체를 주입받지 못한다.
+		 * 
+		 * anonymous 유저인 경우 Authentication 객체를 주입받지 못하도록 한 이유는 표준 서플릿 API 스펙을 따라가기 위해서라고
+		 * 한다. 아래는 링크에서 가져온 설명이다. 
+		 * 
+		 * 서블릿 API의 요점은 Spring Security와 독립적이고 문서화된 표준 동작을 가지고 있다는 것입니다. 
+		 * 기존 응용 프로그램은 해당 동작에 의존할 수 있으므로 (익명 사용자인 경우 인증객체를 null로 반환하는 방식을)변경하지 않을 것입니다. 
+		 * 애플리케이션이 Spring Security를 ​​사용하고 있음을 알고 있으면 Spring Security API를 사용하여 보안 컨텍스트에 액세스할 수 있습니다. 
+		 * AnonymousAuthenticationFilter의 사용은 Spring Security의 관점에서 "누군가가 인증되었다"는 것을 의미하지 않습니다. 
+		 * 인증 되지 않은 액세스는 보안 컨텍스트에서 익명 토큰으로 표시됩니다. 
+		 * 이것이 원래 도입된 이유는 보안 애플리케이션 컨텍스트에서 액세스 제어 구성을 단순화하기 위한 것입니다.
+		 *  
+		 *  만약 controller에서 Anonymous의 인증 정보를 사용하고 싶다면 
+		 *  아래와 같이 Spring Security API를 사용해서 꺼내와야 한다.
+		 *  authentication = SecurityContextHolder.getContext().getAuthentication(); 
+		 *  
+		 * 참조 https://github.com/spring-projects/spring-security/issues/4011
+		 * 참조 https://github.com/spring-projects/spring-security/issues/1333
+		 * 참조 https://www.inflearn.com/questions/71433
+		 */
+		
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		String[] authorites = 
+			authentication.getAuthorities().stream()
+			.map(e->e.getAuthority()).toArray(String[]::new);
+		
+		log.info("============Anonymous=============");
+		log.info("유저 권한 : {}", String.join(", ", authorites));
 		
 		return "먼저 로그인해서 인증을 해주세요";
 	}
@@ -65,7 +102,7 @@ public class AuthorizationTestController {
 			log.info("authentication : {}", oAuth2User2.getAttributes());
 			log.info("oAuth2User : {}", oAuth2User.getAttributes());
 			return "OAuth 세션 정보 확인";
-		} 
+		}
 		
 		return "먼저 OAuth 로그인해서 인증을 해주세요";
 	}
@@ -82,6 +119,13 @@ public class AuthorizationTestController {
 		return "restrantowner 권한이 필요한 페이지입니다.";
 	}
 	
+	@Secured("ROLE_ANONYMOUS")
+	@GetMapping("/anonymous")
+	public @ResponseBody String onlyAnomymous() {
+		return "anonymous만 들어올 수 있는 페이지입니다.";
+	}
+	
+	
 	/*
 	 * 시큐리티 설정에서 전역적으로 권한 설정을 잡아주고나서
 	 * 메소드 레벨에서 세부적인 권한 설정을 추가하고 싶을 때 
@@ -89,13 +133,13 @@ public class AuthorizationTestController {
 	 * 메소드 레벨에서는 Secured 애너테이션을 주로 사용한다.
 	 */
 	@Secured("ROLE_ORDERER")
-	@GetMapping("/ordererInfo")
+	@GetMapping("/info/orderer")
 	public @ResponseBody String ordererInfo() {
 		return "orderer 개인정보";
 	}
 	
-	@Secured("ROLE_RESTRANTOWNER")
-	@GetMapping("/restantOwnerInfo")
+	@Secured("ROLE_STORE_OWNER")
+	@GetMapping("/info/storeowner")
 	public @ResponseBody String restrantOwnerInfo() {
 		return "restrantowner 개인정보";
 	}
@@ -107,7 +151,7 @@ public class AuthorizationTestController {
 	@PreAuthorize("hasRole('ROLE_ORDERER') or hasRole('ROLE_RESTRANTOWNER')")
 	@GetMapping("/info")
 	public @ResponseBody String data() {
-		return "유저 개인 정보";
+		return "user 개인정보";
 	}
 	
 }

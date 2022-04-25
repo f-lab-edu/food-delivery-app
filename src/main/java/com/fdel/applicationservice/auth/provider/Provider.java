@@ -30,9 +30,10 @@ public enum Provider{
 	 * @return string 타입의 provider 정보와 대응하는 Provider 타입의 provider 정보 반환
 	 * @throws IllegalArgumentException 일치하는 Provider 타입이 없는 경우 던져진다.
 	 */
-	public static Provider ofString(String provider) {
+	public static Provider ofString(String stringProvider) {
+		String upperCaseStringProvider = stringProvider.toUpperCase();
 		return Arrays.stream(Provider.values())
-			.filter(e -> e.getProvider().equals(provider))
+			.filter(e -> e.getProvider().equals(upperCaseStringProvider))
 			.findAny()
 			.orElseThrow(()-> 
 				new IllegalArgumentException(SimpleMessage.

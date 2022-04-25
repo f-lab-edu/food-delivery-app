@@ -1,4 +1,4 @@
-package com.fdel.controller.dto;
+package com.fdel.controller.requestdto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.fdel.applicationservice.auth.provider.Provider;
 import com.fdel.entity.User;
 import com.fdel.entity.User.Role;
 
@@ -36,12 +37,14 @@ public class JoinDto {
 	 * @return JoinDto가 가지고 있던 정보로 만들어진 User 객체가 반환됩니다.
 	 */
 	public User toUser(PasswordEncoder passwordEncoder) {
-		User newUser = new User();
-		newUser.setUsername(username);
-		newUser.setPassword(passwordEncoder.encode(password));
-		newUser.setEmail(email);
-		newUser.setRoles(new ArrayList<Role>(Arrays.asList(Role.ORDERER))); //default
-		return newUser;
+		String passwordEncoded = passwordEncoder.encode(password);
+		List<Role> roleList = new ArrayList<>(Arrays.asList(Role.ORDERER));
+		return new User(username, 
+			passwordEncoded, 
+			email, 
+			roleList, 
+			Provider.NONE,
+			"none");
 	}
 	
 }

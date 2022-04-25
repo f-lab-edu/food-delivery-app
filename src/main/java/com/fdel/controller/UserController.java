@@ -4,8 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.fdel.applicationservice.ApplicationLoginService;
-import com.fdel.controller.dto.JoinDto;
+import com.fdel.applicationservice.ApplicationJoinService;
+import com.fdel.controller.requestdto.JoinDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 	
-	private final ApplicationLoginService applicationLoginService;
+	private final ApplicationJoinService applicationJoinService;
 	
 	@GetMapping({"","/"})
 	public String index() {
@@ -35,7 +35,7 @@ public class UserController {
 
 	@PostMapping("/join")
 	public String join(JoinDto joinDto) {
-		applicationLoginService.registByJoinDto(joinDto);
+		applicationJoinService.regist(joinDto);
 		return "redirect:/loginForm";
 	}
 }
