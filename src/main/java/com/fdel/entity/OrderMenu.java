@@ -7,8 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
 public class OrderMenu {
 
   @Id
@@ -18,52 +21,13 @@ public class OrderMenu {
 
   @ManyToOne
   @JoinColumn(name ="order_id")
-  private Orders orders;
+  private Order order;
 
   @ManyToOne
   @JoinColumn(name = "menu_id")
   private Menu menu;
 
-  private int orderPrice;
-  private int count;
+  private Long orderPrice;
+  private Long count;
 
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Orders getOrder() {
-    return orders;
-  }
-
-  public void setOrder(Orders orders) {
-    this.orders = orders;
-  }
-
-  public Menu getMenu() {
-    return menu;
-  }
-
-  public void setMenu(Menu menu) {
-    this.menu = menu;
-  }
-
-  public int getOrderPrice() {
-    return orderPrice;
-  }
-
-  public void setOrderPrice(int orderPrice) {
-    this.orderPrice = orderPrice;
-  }
-
-  public int getCount() {
-    return count;
-  }
-
-  public void setCount(int count) {
-    this.count = count;
-  }
 }

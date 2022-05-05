@@ -5,8 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Menu {
 
   @Id
@@ -15,38 +21,26 @@ public class Menu {
   private Long id;
 
   private String name;
-  private int price;
-  private int stockQuantity;
+  private Long price;
+  private Long stockQuantity;
 
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
+  @Builder
+  public Menu(Long id, String name, Long price, Long stockQuantity) {
     this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
     this.name = name;
-  }
-
-  public int getPrice() {
-    return price;
-  }
-
-  public void setPrice(int price) {
     this.price = price;
-  }
-
-  public int getStockQuantity() {
-    return stockQuantity;
-  }
-
-  public void setStockQuantity(int stockQuantity) {
     this.stockQuantity = stockQuantity;
+  }
+  
+  public void addStock(Long quantity) {
+    this.stockQuantity += quantity;
+  }
+  
+  public void removeStock(Long quantity) {
+    long remaining = this.stockQuantity - quantity;
+    if (remaining < 0) {
+      //Exeption message=Not Enough Stock
+    }
+    this.stockQuantity = remaining;
   }
 }
