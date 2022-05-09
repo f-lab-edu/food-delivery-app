@@ -1,5 +1,6 @@
 package com.fdel.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +34,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 @NoArgsConstructor
-public class User {
+public class User extends BaseEntity implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,10 +53,6 @@ public class User {
 	//OAuth 제공 사이트의 유저 계정 id
 	@Builder.Default
 	private String providerId = "none";
-	
-	@Column(name = "creation_date")
-	@CreationTimestamp //이 애너테이션은 setter로 주입하지 않아도 자동 생성되게 해준다.
-	private Timestamp creationDate;
 	
 	@Getter
 	public static enum Role {
@@ -110,7 +107,7 @@ public class User {
 	
 	public User(Integer id, String username, String password, 
 			String email, List<Role> roles, Provider provider,
-			String providerId, Timestamp creationDate) {
+			String providerId) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -118,7 +115,6 @@ public class User {
 		this.roles = roles;
 		this.provider = provider;
 		this.providerId = providerId;
-		this.creationDate = creationDate;
 	}
 	
 	/**

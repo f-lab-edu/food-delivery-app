@@ -6,6 +6,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.session.Session;
+import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
 import com.fdel.applicationservice.auth.PrincipalOauth2UserService;
 
@@ -23,6 +26,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	private PrincipalOauth2UserService principalOauth2UserService;
+	
+	@Autowired
+	private SpringSessionBackedSessionRegistry<? extends Session> springSessionBackedSessionRegistry;
+
+
 
 	/*
 	 * OAuth 과정
@@ -31,11 +39,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
+		http.sessionManagement()
+        .sessionFixation().changeSessionId()
+        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 세션이 필요하면 생성하도록 셋팅
+        .maximumSessions(2) // username 기준으로 사용할 수 있는 session 갯수
+        .maxSessionsPreventsLogin(false)
+        .sessionRegistry(springSessionBackedSessionRegistry);
+	
 		http.csrf().disable(); 
 		
 		http.authorizeRequests()
 				.antMatchers("/orderer/**").access("hasRole('ROLE_ORDERER')")
-				.antMatchers("/restrantowner/**").access("hasRole('ROLE_RESTRANTOWNER')")
+				.antMatchers("/storeowner/**").access("hasRole('ROLE_STORE_OWNER')")
 				.anyRequest().permitAll()
 			.and() 
 				.formLogin()

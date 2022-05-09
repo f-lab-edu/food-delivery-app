@@ -1,11 +1,20 @@
 package com.fdel.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.session.Session;
+import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,6 +32,43 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 public class AuthorizationTestController {
+	
+	@Autowired
+	private SpringSessionBackedSessionRegistry<? extends Session> springSessionBackedSessionRegistry;
+	
+	//redis session을 테스트하기 위한 함수입니다.
+	@GetMapping("/sessionid")
+	@ResponseBody
+	public String getSessionId(HttpSession httpSession) {
+		
+		List<SessionInformation> allSessions = new ArrayList<>();
+		
+		 log.info("========= redis Session test controller==========");
+		 log.info("세션 maxInactiveInterval={}", httpSession.getMaxInactiveInterval());
+
+		// (수동 테스트 확인용) 세션에 임의의 데이터 설정
+		// httpSession.setAttribute("someAttribute", "someValue");
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if(authentication == null) {
+			log.info("Authentication 객체가 null 입니다.");
+		} else {
+			PrincipalDetails principal = (PrincipalDetails)authentication.getPrincipal();
+		log.info("Autentication 객체의 이름을 출력합니다. : {}", principal.getUsername());
+	       allSessions = springSessionBackedSessionRegistry
+    		   .getAllSessions(authentication.getPrincipal(), false); //true로 설정하면 만료된 세션도 볼 수 있습니다.
+		}
+        
+        if(allSessions.isEmpty()) {
+        	log.info("요청시 redis 세션 정보가 비었습니다!");
+        } else {
+    	  for(SessionInformation sessionInfo : allSessions) {
+          	log.info("redis에 저장된 세션 id : {}", sessionInfo.getSessionId());
+          }
+        }
+        
+        return httpSession.getId();
+	}
+	
 	
 	/*
 	 * principalDetails은 UserDetails과 OAuth2User 모두 구현했기 때문에
@@ -114,9 +160,9 @@ public class AuthorizationTestController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/restrantowner")
+	@GetMapping("/storeowner")
 	public String manager() {
-		return "restrantowner 권한이 필요한 페이지입니다.";
+		return "storeowner 권한이 필요한 페이지입니다.";
 	}
 	
 	@Secured("ROLE_ANONYMOUS")
@@ -124,7 +170,6 @@ public class AuthorizationTestController {
 	public @ResponseBody String onlyAnomymous() {
 		return "anonymous만 들어올 수 있는 페이지입니다.";
 	}
-	
 	
 	/*
 	 * 시큐리티 설정에서 전역적으로 권한 설정을 잡아주고나서
@@ -148,7 +193,7 @@ public class AuthorizationTestController {
 	 * 메소드 레벨에서 여러 권한 체크를 하고 싶을 때는 
 	 * @PreAuthorize를 사용한다.
 	 */
-	@PreAuthorize("hasRole('ROLE_ORDERER') or hasRole('ROLE_RESTRANTOWNER')")
+	@PreAuthorize("hasRole('ROLE_ORDERER') or hasRole('ROLE_STORE_OWNER')")
 	@GetMapping("/info")
 	public @ResponseBody String data() {
 		return "user 개인정보";

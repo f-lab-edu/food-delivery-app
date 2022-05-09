@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver;
+import org.springframework.session.Session;
+import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -30,10 +32,13 @@ class AuthorizationTestControllerTest {
 	@Autowired
 	FilterChainProxy springSecurityFilterChain;
 	
+	@Autowired
+	private SpringSessionBackedSessionRegistry<? extends Session> springSessionBackedSessionRegistry;
+	
 	private MockMvc mock;
 	
 	@BeforeEach
-	public void setup() {
+	void setup() {
 		mock = MockMvcBuilders
 			.standaloneSetup(authorizationTestController)
 			.apply(springSecurity(springSecurityFilterChain))
@@ -131,5 +136,6 @@ class AuthorizationTestControllerTest {
 			throws Exception {
 		mock.perform(get("/info/storeowner"))
 			.andExpect(status().isOk());
-	}	
+	}		
+	
 }

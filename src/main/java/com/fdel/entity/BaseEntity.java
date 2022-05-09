@@ -1,5 +1,6 @@
 package com.fdel.entity;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
@@ -15,11 +16,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class BaseEntity {
 
     @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
+    @Column(name="created_at", updatable = false, columnDefinition = "TIMESTAMP")
+    private Instant createdAt;
 
     @LastModifiedDate
-    @Column(updatable = false)
-    private LocalDateTime updatedAt;
+    @Column(name="updated_at", updatable = false, columnDefinition = "TIMESTAMP")
+    private Instant updatedAt;
 
 }
