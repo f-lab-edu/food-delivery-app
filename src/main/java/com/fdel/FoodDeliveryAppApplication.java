@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @EnableJpaAuditing
-@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 3600) //maxInactiveIntervalInSeconds 단위 초
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 1800) //maxInactiveIntervalInSeconds 단위 초
 @SpringBootApplication
 public class FoodDeliveryAppApplication {
 

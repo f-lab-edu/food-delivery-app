@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.fdel.applicationservice.auth.provider.Provider;
 import com.fdel.entity.User;
 import com.fdel.entity.User.Role;
+import com.fdel.service.auth.provider.Provider;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

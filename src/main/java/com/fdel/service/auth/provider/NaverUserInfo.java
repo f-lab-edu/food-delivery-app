@@ -1,4 +1,4 @@
-package com.fdel.applicationservice.auth.provider;
+package com.fdel.service.auth.provider;
 
 import java.util.Map;
 

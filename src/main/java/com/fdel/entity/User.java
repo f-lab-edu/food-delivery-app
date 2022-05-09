@@ -16,11 +16,11 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fdel.applicationservice.auth.provider.Provider;
 import com.fdel.exception.message.SimpleMessage;
 import com.fdel.exception.message.UserMessage;
 import com.fdel.repository.converter.UserOAuthConverter;
 import com.fdel.repository.converter.UserRolesConverter;
+import com.fdel.service.auth.provider.Provider;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 
 import lombok.Builder;

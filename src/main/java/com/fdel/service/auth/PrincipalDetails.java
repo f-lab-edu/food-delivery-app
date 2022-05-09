@@ -1,4 +1,4 @@
-package com.fdel.applicationservice.auth;
+package com.fdel.service.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;

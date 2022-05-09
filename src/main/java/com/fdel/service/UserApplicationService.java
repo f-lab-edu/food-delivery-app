@@ -1,4 +1,6 @@
-package com.fdel.applicationservice;
+package com.fdel.service;
+
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -10,5 +12,5 @@ import com.fdel.entity.User;
 @Service
 public interface UserApplicationService {
 	void regist(User user);
-	User findByUserName(String userName);
+	Optional<User> findByUserName(String userName);
 }

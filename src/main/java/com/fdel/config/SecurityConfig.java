@@ -10,7 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.session.Session;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
-import com.fdel.applicationservice.auth.PrincipalOauth2UserService;
+import com.fdel.service.auth.PrincipalOauth2UserService;
 
 /*
  * @EnableWebSecurity 스프링 시큐리티 필터가 스프링 필터 체인에 등록되게 함

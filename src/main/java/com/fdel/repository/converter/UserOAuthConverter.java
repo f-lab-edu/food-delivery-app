@@ -2,7 +2,7 @@ package com.fdel.repository.converter;
 
 import javax.persistence.AttributeConverter;
 
-import com.fdel.applicationservice.auth.provider.Provider;
+import com.fdel.service.auth.provider.Provider;
 
 /**
  * User Entity의 provider 부분을 어플리케이션 type(Provider)와

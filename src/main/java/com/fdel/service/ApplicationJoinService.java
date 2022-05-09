@@ -1,11 +1,11 @@
-package com.fdel.applicationservice;
+package com.fdel.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.fdel.applicationservice.auth.provider.Provider;
 import com.fdel.controller.requestdto.JoinDto;
 import com.fdel.entity.User;
+import com.fdel.service.auth.provider.Provider;
 
 import lombok.RequiredArgsConstructor;
 

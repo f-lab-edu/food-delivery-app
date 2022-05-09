@@ -1,6 +1,6 @@
-package com.fdel.applicationservice.auth;
+package com.fdel.service.auth;
 
-import static com.fdel.applicationservice.auth.provider.OAuth2UserInfoFactory.getOAuth2UserInfo;
+import static com.fdel.service.auth.provider.OAuth2UserInfoFactory.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,11 +13,11 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import com.fdel.applicationservice.UserApplicationService;
-import com.fdel.applicationservice.auth.provider.OAuth2UserInfo;
-import com.fdel.applicationservice.auth.provider.Provider;
 import com.fdel.entity.User;
 import com.fdel.entity.User.Role;
+import com.fdel.service.UserApplicationService;
+import com.fdel.service.auth.provider.OAuth2UserInfo;
+import com.fdel.service.auth.provider.Provider;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -77,10 +77,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		String email = oAuth2UserInfo.getEmail();
 		List<Role> roles = new ArrayList<>(Arrays.asList(Role.ORDERER));
 		
-		User userEntity = userApplicationService.findByUserName(username);
-		
-		if(userEntity == null) {
-			userEntity = User.builder()
+		User userEntity = userApplicationService.findByUserName(username).orElseGet(()->{
+			User newUser = User.builder()
 					.username(username)
 					.password(password)
 					.email(email)
@@ -88,9 +86,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 					.providerId(providerId)
 					.roles(roles)
 					.build();
-			
-			userApplicationService.regist(userEntity);
-		}
+			userApplicationService.regist(newUser);
+			return newUser;
+		});
 		
 		return new PrincipalDetails(userEntity, oauth2User.getAttributes());
 	}

@@ -1,5 +1,7 @@
 package com.fdel.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.fdel.entity.User;
@@ -11,5 +13,6 @@ import com.fdel.entity.User;
  */
 public interface UserRepository 
 		extends JpaRepository<User, Integer>{
-	public User findByUsername(String username); //Jpa Query methods
+	
+	public Optional<User> findByUsername(String username); //Jpa Query methods
 }

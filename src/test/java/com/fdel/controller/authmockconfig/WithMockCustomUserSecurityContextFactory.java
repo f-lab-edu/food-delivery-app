@@ -9,9 +9,9 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
 
-import com.fdel.applicationservice.auth.PrincipalDetails;
 import com.fdel.entity.User;
 import com.fdel.entity.User.Role;
+import com.fdel.service.auth.PrincipalDetails;
 
 public class WithMockCustomUserSecurityContextFactory implements WithSecurityContextFactory<WithMockCustomUser> {
     @Override

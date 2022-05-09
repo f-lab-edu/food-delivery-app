@@ -29,8 +29,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fdel.applicationservice.auth.PrincipalDetails;
 import com.fdel.controller.authmockconfig.WithMockCustomUser;
+import com.fdel.service.auth.PrincipalDetails;
 
 import lombok.extern.slf4j.Slf4j;
 

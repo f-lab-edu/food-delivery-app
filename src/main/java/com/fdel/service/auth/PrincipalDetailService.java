@@ -1,4 +1,4 @@
-package com.fdel.applicationservice.auth;
+package com.fdel.service.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.fdel.entity.User;
+import com.fdel.exception.domain.user.UserNotFoundException;
 import com.fdel.exception.message.UserMessage;
 import com.fdel.repository.UserRepository;
 
@@ -40,12 +41,14 @@ public class PrincipalDetailService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) 
 			throws UsernameNotFoundException {
-		User userEntity = userRepository.findByUsername(username);
-		if(userEntity != null) {
-			return new PrincipalDetails(userEntity);
-		}
-		throw new UsernameNotFoundException(UserMessage
-					.USER_NOT_FOUND_MATCHING_THE_USERNAME.getMessage());
+		
+		User userEntity = userRepository
+				.findByUsername(username)
+				.orElseThrow(
+						()->new UserNotFoundException(
+							UserMessage.USER_NOT_FOUND_MATCHING_THE_USERNAME.getMessage()));
+		
+		return new PrincipalDetails(userEntity);
 	}
 
 }
