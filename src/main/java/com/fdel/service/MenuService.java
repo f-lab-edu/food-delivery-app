@@ -19,22 +19,30 @@ public class MenuService {
   private final MenuRepository menuRepository;
 
   @Transactional
-  public void saveMenu(Menu menu) {
+  public void save(Menu menu) {
     menuRepository.save(menu);
   }
 
   @Transactional
-  public Long updateItem(Long menuId, MenuUpdateRequestDto requestDto) {
+  public Long update(Long menuId, MenuUpdateRequestDto requestDto) {
     Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new EntityNotFoundException("Menu not found"));
     menu.update(requestDto.getName(),requestDto.getPrice());
     return menuId;
   }
 
-  public List<Menu> findAllMenu() {
+  @Transactional
+  public void delete (Long id) {
+    Menu menu = menuRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Menu not found"));
+
+    menuRepository.delete(menu);
+  }
+
+  public List<Menu> findAll() {
     return menuRepository.findAll();
   }
 
-  public Menu findOneMenu(Long menuId) {
+  public Menu findById(Long menuId) {
     return menuRepository.findById(menuId).orElseThrow(() -> new EntityNotFoundException("Menu not found"));
   }
 
