@@ -12,6 +12,7 @@ import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 public class OrderMenu {
 
   @Id
@@ -29,5 +30,6 @@ public class OrderMenu {
 
   private Long orderPrice;
   private Long count;
+
 
 }

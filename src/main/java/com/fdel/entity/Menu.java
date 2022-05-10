@@ -43,4 +43,9 @@ public class Menu {
     }
     this.stockQuantity = remaining;
   }
+
+  public void update(String name, Long price) {
+    this.name = name;
+    this.price = price;
+  }
 }

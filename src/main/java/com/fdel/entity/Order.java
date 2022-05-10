@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Entity
 @Getter
-@Table(name = "orders")
+@Table(name = "orders") // order는 MYSQL 예약어로 사용 불가
 public class Order extends BaseEntity{
 
   @Id
@@ -15,11 +15,11 @@ public class Order extends BaseEntity{
   @Column(name = "orders_id")
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private User user;
 
-  @OneToMany(mappedBy = "order")
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<OrderMenu> orderMenuList = new ArrayList<>();
 
   @Enumerated(EnumType.STRING)
@@ -29,4 +29,5 @@ public class Order extends BaseEntity{
     orderMenuList.add(orderMenu);
     orderMenu.setOrder(this);
   }
+
 }
