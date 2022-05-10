@@ -1,4 +1,4 @@
-package com.fdel.controller.response;
+package com.fdel.controller.responsedto;
 
 import com.fdel.entity.Menu;
 import java.time.LocalDateTime;

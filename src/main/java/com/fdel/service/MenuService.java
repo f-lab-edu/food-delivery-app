@@ -3,8 +3,8 @@ package com.fdel.service;
 
 import com.fdel.controller.requestdto.MenuSaveRequestDto;
 import com.fdel.controller.requestdto.MenuUpdateRequestDto;
-import com.fdel.controller.response.MenuListResponseDto;
-import com.fdel.controller.response.MenuResponseDto;
+import com.fdel.controller.responsedto.MenuListResponseDto;
+import com.fdel.controller.responsedto.MenuResponseDto;
 import com.fdel.entity.Menu;
 import com.fdel.repository.MenuRepository;
 import java.util.List;
@@ -39,6 +39,18 @@ public class MenuService {
         .orElseThrow(() -> new EntityNotFoundException("Menu not found"));
 
     menuRepository.delete(menu);
+  }
+
+  public Long addStock(Long menuId, Long quantity) {
+    Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new EntityNotFoundException("Menu not found"));
+    menu.addStock(quantity);
+    return menuId;
+  }
+
+  public Long removeStock(Long menuId, Long quantity) {
+    Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new EntityNotFoundException("Menu not found"));
+    menu.removeStock(quantity);
+    return menuId;
   }
 
   public List<MenuListResponseDto> findAll() {

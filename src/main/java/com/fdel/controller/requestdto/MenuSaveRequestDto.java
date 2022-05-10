@@ -21,6 +21,10 @@ public class MenuSaveRequestDto {
   }
 
   public Menu toEntity() {
-    return Menu.builder().name(name).price(price).stockQuantity(stockQuantity).build();
+    return Menu.builder()
+        .name(name)
+        .price(price)
+        .stockQuantity(stockQuantity)
+        .build();
   }
 }

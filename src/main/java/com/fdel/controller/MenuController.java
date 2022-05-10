@@ -2,8 +2,8 @@ package com.fdel.controller;
 
 import com.fdel.controller.requestdto.MenuSaveRequestDto;
 import com.fdel.controller.requestdto.MenuUpdateRequestDto;
-import com.fdel.controller.response.MenuListResponseDto;
-import com.fdel.controller.response.MenuResponseDto;
+import com.fdel.controller.responsedto.MenuListResponseDto;
+import com.fdel.controller.responsedto.MenuResponseDto;
 import com.fdel.service.MenuService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,28 +21,28 @@ public class MenuController {
 
   private final MenuService menuService;
 
-  @PostMapping("/menu")
+  @PostMapping("/menus")
   public Long save(@RequestBody MenuSaveRequestDto requestDto) {
     return menuService.save(requestDto);
   }
 
-  @PutMapping("/menu/{id}")
+  @PutMapping("/menus/{id}")
   public Long update(@PathVariable Long id, @RequestBody MenuUpdateRequestDto requestDto) {
     return menuService.update(id, requestDto);
   }
 
-  @DeleteMapping("/menu/{id}")
+  @DeleteMapping("/menus/{id}")
   public Long delete(@PathVariable Long id) {
     menuService.delete(id);
     return id;
   }
 
-  @GetMapping("menu/list")
+  @GetMapping("/menus")
   public List<MenuListResponseDto> findAll() {
     return menuService.findAll();
   }
 
-  @GetMapping("menu/{id}")
+  @GetMapping("/menu/{id}")
   public MenuResponseDto findById(@PathVariable Long id) {
     return menuService.findById(id);
   }
