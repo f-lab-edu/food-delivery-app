@@ -1,6 +1,7 @@
 package com.fdel.service;
 
 
+import com.fdel.controller.requestdto.MenuSaveRequestDto;
 import com.fdel.controller.requestdto.MenuUpdateRequestDto;
 import com.fdel.controller.response.MenuResponseDto;
 import com.fdel.entity.Menu;
@@ -21,8 +22,8 @@ public class MenuService {
   private final MenuRepository menuRepository;
 
   @Transactional
-  public void save(Menu menu) {
-    menuRepository.save(menu);
+  public Long save(MenuSaveRequestDto requestDto) {
+    return menuRepository.save(requestDto.toEntity()).getId();
   }
 
   @Transactional
@@ -33,8 +34,8 @@ public class MenuService {
   }
 
   @Transactional
-  public void delete (Long id) {
-    Menu menu = menuRepository.findById(id)
+  public void delete (Long menuId) {
+    Menu menu = menuRepository.findById(menuId)
         .orElseThrow(() -> new EntityNotFoundException("Menu not found"));
 
     menuRepository.delete(menu);
