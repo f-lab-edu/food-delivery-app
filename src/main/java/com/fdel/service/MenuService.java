@@ -3,11 +3,11 @@ package com.fdel.service;
 
 import com.fdel.controller.requestdto.MenuSaveRequestDto;
 import com.fdel.controller.requestdto.MenuUpdateRequestDto;
+import com.fdel.controller.response.MenuListResponseDto;
 import com.fdel.controller.response.MenuResponseDto;
 import com.fdel.entity.Menu;
 import com.fdel.repository.MenuRepository;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +41,8 @@ public class MenuService {
     menuRepository.delete(menu);
   }
 
-  public List<MenuResponseDto> findAll() {
-    return menuRepository.findAll().stream().map(MenuResponseDto::new).collect(Collectors.toList());
+  public List<MenuListResponseDto> findAll() {
+    return menuRepository.findAll().stream().map(MenuListResponseDto::new).collect(Collectors.toList());
   }
 
   public MenuResponseDto findById(Long menuId) {

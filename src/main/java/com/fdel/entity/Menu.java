@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Menu {
+public class Menu extends BaseEntity{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
