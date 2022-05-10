@@ -2,10 +2,12 @@ package com.fdel.service;
 
 
 import com.fdel.controller.requestdto.MenuUpdateRequestDto;
+import com.fdel.controller.response.MenuResponseDto;
 import com.fdel.entity.Menu;
 import com.fdel.repository.MenuRepository;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,12 +40,13 @@ public class MenuService {
     menuRepository.delete(menu);
   }
 
-  public List<Menu> findAll() {
-    return menuRepository.findAll();
+  public List<MenuResponseDto> findAll() {
+    return menuRepository.findAll().stream().map(MenuResponseDto::new).collect(Collectors.toList());
   }
 
-  public Menu findById(Long menuId) {
-    return menuRepository.findById(menuId).orElseThrow(() -> new EntityNotFoundException("Menu not found"));
+  public MenuResponseDto findById(Long menuId) {
+    Menu entity = menuRepository.findById(menuId).orElseThrow(() -> new EntityNotFoundException("Menu not found"));
+    return new MenuResponseDto(entity);
   }
 
 }
