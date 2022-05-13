@@ -10,4 +10,3 @@ server:
 spring:
   profiles:
     active: local #application-{지정값}.yml 파일을 참조한다는 뜻
- 
