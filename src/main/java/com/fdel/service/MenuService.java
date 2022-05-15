@@ -1,65 +1,86 @@
 package com.fdel.service;
 
 
-import com.fdel.controller.requestdto.MenuSaveRequestDto;
-import com.fdel.controller.requestdto.MenuUpdateRequestDto;
-import com.fdel.controller.responsedto.MenuListResponseDto;
-import com.fdel.controller.responsedto.MenuResponseDto;
-import com.fdel.entity.Menu;
-import com.fdel.repository.MenuRepository;
+import static com.fdel.exception.message.MenuMessage.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.fdel.dto.menu.MenuDto;
+import com.fdel.entity.Menu;
+import com.fdel.repository.MenuRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MenuService {
 
-  private final MenuRepository menuRepository;
+	private final MenuRepository menuRepository;
 
-  @Transactional
-  public Long save(MenuSaveRequestDto requestDto) {
-    return menuRepository.save(requestDto.toEntity()).getId();
-  }
+  	@Transactional
+  	public void regist(MenuDto menuDto) {
+	  	menuRepository.save(menuDto.toEntity()).getId();
+  	}
 
-  @Transactional
-  public Long update(Long menuId, MenuUpdateRequestDto requestDto) {
-    Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new EntityNotFoundException("Menu not found"));
-    menu.update(requestDto.getName(),requestDto.getPrice());
-    return menuId;
-  }
+  	@Transactional
+  	public void update(MenuDto menuDto) {
+	  Menu menu = menuRepository
+		.findById(menuDto.getId())
+		.orElseThrow(() -> 
+			new EntityNotFoundException(MENU_ENTITY_NOT_FOUND.getMessage()));
+    	menu.update(menuDto.getName(),menuDto.getPrice(), menuDto.getStockQuantity());
+  	}
 
-  @Transactional
-  public void delete (Long menuId) {
-    Menu menu = menuRepository.findById(menuId)
-        .orElseThrow(() -> new EntityNotFoundException("Menu not found"));
+  	@Transactional
+  	public void delete (Long menuId) {
+	  Menu menu = menuRepository
+		.findById(menuId)
+        .orElseThrow(() -> 
+        	new EntityNotFoundException(MENU_ENTITY_NOT_FOUND.getMessage()));
 
-    menuRepository.delete(menu);
-  }
+    	menuRepository.delete(menu);
+  	}
 
-  public Long addStock(Long menuId, Long quantity) {
-    Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new EntityNotFoundException("Menu not found"));
-    menu.addStock(quantity);
-    return menuId;
-  }
+  	@Transactional
+  	public void addStock(Long menuId, Integer quantity) {
+	  	Menu menu = menuRepository
+			.findById(menuId)
+			.orElseThrow(() -> 
+				new EntityNotFoundException(MENU_ENTITY_NOT_FOUND.getMessage()));
+    	menu.addStock(quantity);
+  	}
 
-  public Long removeStock(Long menuId, Long quantity) {
-    Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new EntityNotFoundException("Menu not found"));
-    menu.removeStock(quantity);
-    return menuId;
-  }
+  	@Transactional
+  	public void removeStock(Long menuId, Integer quantity) {
+	  	Menu menu = menuRepository
+			.findById(menuId)
+			.orElseThrow(() -> 
+				new EntityNotFoundException(MENU_ENTITY_NOT_FOUND.getMessage()));
+    	menu.removeStock(quantity);
+  	}
 
-  public List<MenuListResponseDto> findAll() {
-    return menuRepository.findAll().stream().map(MenuListResponseDto::new).collect(Collectors.toList());
-  }
+  	public List<MenuDto> findAll() {
+  		return menuRepository
+		  .findAll()
+		  .stream()
+		  .map(menuEntity->
+		  		new MenuDto(menuEntity))
+		  .collect(Collectors.toList());
+  	}
 
-  public MenuResponseDto findById(Long menuId) {
-    Menu entity = menuRepository.findById(menuId).orElseThrow(() -> new EntityNotFoundException("Menu not found"));
-    return new MenuResponseDto(entity);
-  }
+  	public MenuDto findById(Long menuId) {
+  		Menu menuEntity = menuRepository
+			.findById(menuId)
+			.orElseThrow(() -> 
+				new EntityNotFoundException(MENU_ENTITY_NOT_FOUND.getMessage()));
+    	return new MenuDto(menuEntity);
+  	}
 
 }

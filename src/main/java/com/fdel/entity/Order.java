@@ -8,7 +8,7 @@ import lombok.Getter;
 @Entity
 @Getter
 @Table(name = "orders") // order는 MYSQL 예약어로 사용 불가
-public class Order extends BaseEntity{
+public class Order extends BaseTimeEntity{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

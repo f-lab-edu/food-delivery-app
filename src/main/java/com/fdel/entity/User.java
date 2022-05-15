@@ -34,7 +34,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 @NoArgsConstructor
-public class User extends BaseEntity implements Serializable{
+public class User extends BaseTimeEntity implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

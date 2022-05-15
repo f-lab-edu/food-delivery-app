@@ -99,7 +99,7 @@ class AuthorizationTestControllerTest {
 		mock.perform(get("/orderer"))
 			.andExpect(status().is3xxRedirection())
 			.andDo(print())
-			.andExpect(header().string("Location", "http://localhost/loginForm"));
+			.andExpect(header().string("Location", "http://localhost/users/loginform"));
 	}
 	
 	@Test

@@ -1,4 +1,4 @@
-package com.fdel.controller.requestdto;
+package com.fdel.dto.user;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +22,7 @@ import lombok.ToString;
 @Data
 @ToString
 @NoArgsConstructor
-public class JoinDto {
+public class UserDto {
 	
 	String username;
 	String password;
@@ -36,7 +36,7 @@ public class JoinDto {
 	 * @param passwordEncoder
 	 * @return JoinDto가 가지고 있던 정보로 만들어진 User 객체가 반환됩니다.
 	 */
-	public User toUser(PasswordEncoder passwordEncoder) {
+	public User toEntity(PasswordEncoder passwordEncoder) {
 		String passwordEncoded = passwordEncoder.encode(password);
 		List<Role> roleList = new ArrayList<>(Arrays.asList(Role.ORDERER));
 		return new User(username, 
