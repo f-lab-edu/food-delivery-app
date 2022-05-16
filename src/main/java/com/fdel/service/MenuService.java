@@ -70,8 +70,7 @@ public class MenuService {
   		return menuRepository
 		  .findAll()
 		  .stream()
-		  .map(menuEntity->
-		  		new MenuDto(menuEntity))
+		  .map(MenuDto::new)
 		  .collect(Collectors.toList());
   	}
 
