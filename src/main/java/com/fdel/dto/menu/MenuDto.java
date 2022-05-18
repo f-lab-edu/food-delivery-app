@@ -3,10 +3,10 @@ package com.fdel.dto.menu;
 import com.fdel.entity.Menu;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @NoArgsConstructor
 public class MenuDto {
 

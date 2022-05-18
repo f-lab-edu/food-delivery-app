@@ -4,9 +4,6 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +17,7 @@ import org.springframework.session.web.http.SessionRepositoryFilter;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fdel.controller.authmockconfig.WithMockStoreOwner;
@@ -47,9 +45,6 @@ class MenuControllerTest {
 	@Autowired
 	private MenuRepository menuRepository;
 	
-	@Autowired
-	private EntityManager entityManager;
-	
 	private MockMvc mock;
 	
 	private MenuDto mockMenuDto0;
@@ -64,17 +59,13 @@ class MenuControllerTest {
 			.build();
 		
 		mockMenuDto0 = MenuDto.builder().name("돈가스").price(5000).stockQuantity(30).build();
-		mockMenuDto1 = MenuDto.builder().name("떠볶이").price(3000).stockQuantity(20).build();
+		mockMenuDto1 = MenuDto.builder().name("떡볶이").price(3000).stockQuantity(20).build();
 	}
 	
 	@AfterEach
 	void afterEach() {
+		//만약 같은 스레드에서 test 함수가 두개 이상 실행된다면 deleteAll()이 호출되어야 합니다.
 		menuRepository.deleteAll();
-		
-		//h1 db의 id의 auto_increment를 1로 초기화합니다.
-		entityManager
-        	.createNativeQuery("ALTER TABLE MENU ALTER COLUMN `menu_id` RESTART WITH 1")
-        	.executeUpdate();
 	}
 
 	@Test

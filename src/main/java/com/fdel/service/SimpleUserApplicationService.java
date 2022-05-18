@@ -2,13 +2,11 @@ package com.fdel.service;
 
 import java.util.Optional;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fdel.dto.user.UserDto;
 import com.fdel.entity.User;
-import com.fdel.exception.message.UserMessage;
 import com.fdel.repository.UserRepository;
 import com.fdel.service.auth.provider.Provider;
 
@@ -19,7 +17,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @RequiredArgsConstructor
-public class SimpleUserApplicationService implements UserApplicationService{
+public class SimpleUserApplicationService implements UserService{
 
 	private final UserRepository userRepository;
 	

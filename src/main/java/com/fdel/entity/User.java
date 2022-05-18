@@ -1,20 +1,15 @@
 package com.fdel.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
-import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.CreationTimestamp;
 
 import com.fdel.exception.message.SimpleMessage;
 import com.fdel.exception.message.UserMessage;
@@ -24,7 +19,6 @@ import com.fdel.service.auth.provider.Provider;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -38,7 +32,7 @@ public class User extends BaseTimeEntity implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	private String username;
 	private String password;
 	private String email;
@@ -105,7 +99,7 @@ public class User extends BaseTimeEntity implements Serializable{
 		this.providerId = providerId;
 	}
 	
-	public User(Integer id, String username, String password, 
+	public User(Long id, String username, String password, 
 			String email, List<Role> roles, Provider provider,
 			String providerId) {
 		this.id = id;
@@ -126,6 +120,15 @@ public class User extends BaseTimeEntity implements Serializable{
 	public void init(Provider provider) {
 		this.provider = provider;
 		validateIntegrity();
+	}
+	
+	public Long getId() {
+		return id;
+	}
+	
+	//테스트를 위해 추가
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	public String getUsername() {

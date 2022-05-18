@@ -29,5 +29,8 @@ public class Order extends BaseTimeEntity{
     orderMenuList.add(orderMenu);
     orderMenu.setOrder(this);
   }
-
+  
+  public enum OrderStatus {
+	  ORDER, CANCEL
+	}
 }
