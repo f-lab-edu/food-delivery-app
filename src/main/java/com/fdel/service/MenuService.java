@@ -35,7 +35,7 @@ public class MenuService {
 		.findById(menuDto.getId())
 		.orElseThrow(() -> 
 			new EntityNotFoundException(MENU_ENTITY_NOT_FOUND.getMessage()));
-    	menu.update(menuDto.getName(),menuDto.getPrice(), menuDto.getStockQuantity());
+		menu.update(menuDto.getName(),menuDto.getPrice(), menuDto.getStockQuantity());
   	}
 
   	@Transactional

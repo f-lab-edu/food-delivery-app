@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @Table(name = "orders") // "order" 는 MYSQL 예약어로 사용 불가
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
   @Id
@@ -61,7 +64,7 @@ public class Order {
   /**
    * 주문 취소
    */
-  public void orderCancel() {
+  public void cancelOrder() {
     // 배달 중일땐 취소 안되야 할것 같음..(배달관련 추후 추가 고민)
     this.changeStatus(OrderStatus.CANCEL);
     orderMenuList.forEach(OrderMenu::cancel);

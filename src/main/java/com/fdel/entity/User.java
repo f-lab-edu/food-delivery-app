@@ -35,7 +35,7 @@ public class User extends BaseTimeEntity implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	private String username;
 	private String password;
 	private String email;
@@ -106,7 +106,7 @@ public class User extends BaseTimeEntity implements Serializable{
 		this.providerId = providerId;
 	}
 	
-	public User(Integer id, String username, String password, 
+	public User(Long id, String username, String password,
 			String email, List<Role> roles, Provider provider,
 			String providerId) {
 		this.id = id;

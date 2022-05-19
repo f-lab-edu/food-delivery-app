@@ -1,7 +1,7 @@
 package com.fdel.repository;
 
-import com.fdel.entity.Menu;
+import com.fdel.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrderRepository extends JpaRepository<Menu, Long> {
+public interface OrderRepository extends JpaRepository<Order, Long> {
 }
