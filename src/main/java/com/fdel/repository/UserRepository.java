@@ -14,5 +14,5 @@ import com.fdel.entity.User;
 public interface UserRepository 
 		extends JpaRepository<User, Integer>{
 	
-	public Optional<User> findByUsername(String username); //Jpa Query methods
+	Optional<User> findByUsername(String username); //Jpa Query methods
 }

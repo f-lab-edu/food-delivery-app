@@ -4,9 +4,9 @@ public enum ProviderMessage {
 	
 	NOT_OAUTH2_PROVIDER("OAuth2 프로바이더가 아닙니다.");
 	
-	private String message;
+	private final String message;
 	
-	private ProviderMessage(String message) {
+	ProviderMessage(String message) {
 		this.message = message;
 	}
 	

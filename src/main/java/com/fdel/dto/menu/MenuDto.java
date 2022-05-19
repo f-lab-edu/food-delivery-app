@@ -26,9 +26,9 @@ public class MenuDto {
 	@Builder
 	public MenuDto(Long id, String name, Integer price, Integer stockQuantity) {
 		this.id = id;  
-	    this.name = name;
-	    this.price = price;
-	    this.stockQuantity = stockQuantity;
+		this.name = name;
+		this.price = price;
+		this.stockQuantity = stockQuantity;
 	}
 
 	public Menu toEntity() {

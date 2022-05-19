@@ -1,18 +1,10 @@
 package com.fdel.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 public class OrderMenu {
 
   @Id
@@ -28,8 +20,43 @@ public class OrderMenu {
   @JoinColumn(name = "menu_id")
   private Menu menu;
 
-  private Long orderPrice;
-  private Long count;
+  private Integer orderPrice;
+  private Integer count;
 
+  public void changeOrder(Order order) {
+    this.order = order;
+  }
 
+  /**
+   * OrderMenu 생성
+   */
+  public static OrderMenu createOrderMenu(Menu menu, int orderPrice, int count) {
+    OrderMenu orderMenu = new OrderMenu();
+    orderMenu.changeMenu(menu);
+    orderMenu.changeOrderPrice(orderPrice);
+    orderMenu.changeCount(count);
+    
+    menu.removeStock(count);
+    return orderMenu;
+  }
+
+  private void changeCount(int count) {
+    this.count = count;
+  }
+
+  private void changeOrderPrice(int orderPrice) {
+    this.orderPrice = orderPrice;
+  }
+
+  private void changeMenu(Menu menu) {
+    this.menu = menu;
+  }
+
+  public void cancel() {
+    getMenu().addStock(count);
+  }
+
+  public int getTotalPrice() {
+    return getOrderPrice() * getCount();
+  }
 }

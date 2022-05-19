@@ -18,6 +18,6 @@ public interface UserApplicationService {
 	 * 
 	 * @param userDto form으로부터 받아온 정보다.
 	 */
-	public void regist(UserDto userDto);
-	public void regist(User user);
+  void regist(UserDto userDto);
+	void regist(User user);
 }

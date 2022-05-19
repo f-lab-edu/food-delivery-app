@@ -1,20 +1,17 @@
 package com.fdel.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
-import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.CreationTimestamp;
+import javax.persistence.OneToMany;
 
 import com.fdel.exception.message.SimpleMessage;
 import com.fdel.exception.message.UserMessage;
@@ -24,7 +21,6 @@ import com.fdel.service.auth.provider.Provider;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,6 +28,7 @@ import lombok.NoArgsConstructor;
  * 유저 Entity 클래스입니다.
  */
 @Entity
+@Getter
 @Builder
 @NoArgsConstructor
 public class User extends BaseTimeEntity implements Serializable{
@@ -53,9 +50,13 @@ public class User extends BaseTimeEntity implements Serializable{
 	//OAuth 제공 사이트의 유저 계정 id
 	@Builder.Default
 	private String providerId = "none";
-	
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "user")
+	private List<Order> orders = new ArrayList<>();
+
 	@Getter
-	public static enum Role {
+	public enum Role {
 		ORDERER("ROLE_ORDERER"),
 		STORE_OWNER("ROLE_STORE_OWNER");
 		
