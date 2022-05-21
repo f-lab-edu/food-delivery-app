@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.session.Session;
 import org.springframework.session.data.redis.RedisIndexedSessionRepository;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
 
@@ -25,6 +26,7 @@ import org.springframework.session.security.SpringSessionBackedSessionRegistry;
  * 
  * 참조 : https://blog.naver.com/PostView.naver?blogId=jieuni4u&logNo=222045853732
  */
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 1800) //maxInactiveIntervalInSeconds 단위 초
 @Configuration
 public class RedisSessionConfig {
 

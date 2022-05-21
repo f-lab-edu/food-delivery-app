@@ -12,7 +12,7 @@ import com.fdel.entity.User;
  * 쿼리는 메서드 이름을 통해 약속된 방식으로 만들어집니다. 
  */
 public interface UserRepository 
-		extends JpaRepository<User, Integer>{
+		extends JpaRepository<User, Long>{
 	
 	public Optional<User> findByUsername(String username); //Jpa Query methods
 }

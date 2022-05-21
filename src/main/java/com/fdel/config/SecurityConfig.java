@@ -55,12 +55,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.anyRequest().permitAll()
 			.and() 
 				.formLogin()
-				.loginPage("/loginForm")
+				.loginPage("/users/loginform")
 				.loginProcessingUrl("/login") //login 주소가 호출되면 시큐리티가 낚아채서 대신 로그인을 진행해줍니다. 즉 컨트롤러에 /login을 안 만들어도 됩니다.
 				.defaultSuccessUrl("/")
 			.and()
 				.oauth2Login()
-				.loginPage("/loginForm")
+				.loginPage("/users/loginform")
 				.userInfoEndpoint() //oauth2Login 성공 이후의 설정을 시작
 				.userService(principalOauth2UserService); 
 				/*

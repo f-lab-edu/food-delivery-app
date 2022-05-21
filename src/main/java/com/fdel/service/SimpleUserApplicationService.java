@@ -2,12 +2,13 @@ package com.fdel.service;
 
 import java.util.Optional;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.fdel.dto.user.UserDto;
 import com.fdel.entity.User;
-import com.fdel.exception.message.UserMessage;
 import com.fdel.repository.UserRepository;
+import com.fdel.service.auth.provider.Provider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,10 +17,26 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @RequiredArgsConstructor
-public class SimpleUserApplicationService implements UserApplicationService{
+public class SimpleUserApplicationService implements UserService{
 
 	private final UserRepository userRepository;
+	
+	private final PasswordEncoder passwordEncoder;
+	
+	
+	/**
+	 * 가입 form으로부터 받아온 dto객체를 받아서 유저를 어플리케이션에 등록한다.
+	 * 
+	 * @param userDto form으로부터 받아온 정보다.
+	 */
+	@Override
+	public void regist(UserDto userDto) {
+		User user = userDto.toEntity(passwordEncoder);
+		user.init(Provider.NONE);
+		regist(user);
+	}
 
+	
 	@Override
 	public void regist(User user) {
 		userRepository.save(user);
