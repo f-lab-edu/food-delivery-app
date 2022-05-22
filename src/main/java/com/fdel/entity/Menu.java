@@ -41,7 +41,6 @@ public class Menu extends BaseTimeEntity{
     validateIntegrity();
   }
   
-  
   // 테스트를 위해서 id setter 추가
   public void setId(Long id) {
 	  if(this.id != null) {

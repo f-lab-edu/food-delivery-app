@@ -17,7 +17,7 @@ import lombok.Getter;
 
 @Getter
 @Entity
-public class Store {
+public class Store extends BaseTimeEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
