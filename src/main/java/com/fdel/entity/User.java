@@ -1,5 +1,7 @@
 package com.fdel.entity;
 
+import static com.fdel.exception.message.EntityMessage.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -128,6 +130,9 @@ public class User extends BaseTimeEntity implements Serializable{
 	
 	//테스트를 위해 추가
 	public void setId(Long id) {
+		if(this.id != null) {
+			throw new IllegalStateException(ID_ALREADY_EXISTS.getMessage());
+		}
 		this.id = id;
 	}
 	

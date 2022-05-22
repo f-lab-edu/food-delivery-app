@@ -1,5 +1,7 @@
 package com.fdel.repository.memorryRepository.user;
 
+import static com.fdel.exception.message.EntityMessage.*;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +13,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.fdel.entity.User;
-import com.fdel.exception.message.EntityMessage;
 
 /*
  * 병렬로 테스트 하기 위해 만든 메모리 레포지토리입니다.
@@ -38,7 +39,7 @@ public class UserMemorryRepository extends UserBaseMemorryRepository{
 		Map<Long, User> map = localMap.get();
 		if(user.getId()!=null) {
 			throw new IllegalStateException(
-				EntityMessage.ID_ALREADY_EXISTS.getMessage());
+				ID_ALREADY_EXISTS.getMessage());
 		}
 		
 		Long nextSequence = localSequence.get();
