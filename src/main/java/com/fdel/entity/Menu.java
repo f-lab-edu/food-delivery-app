@@ -8,9 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.fdel.dto.menu.MenuDto;
 import com.fdel.exception.domain.menu.NotEnoughStockException;
-import static com.fdel.exception.message.MenuMessage.*;
+import com.fdel.exception.message.MenuMessage;
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,16 +37,25 @@ public class Menu extends BaseTimeEntity{
     this.name = name;
     this.price = price;
     this.stockQuantity = stockQuantity;
+    validateIntegrity();
+  }
+  
+  /*
+   * 테스트를 위해서 id setter 추가
+   */
+  public void setId(Long id) {
+	  this.id = id;
   }
   
   public void addStock(Integer quantity) {
     this.stockQuantity += quantity;
+    validateIntegrity();
   }
   
   public void removeStock(Integer quantity) {
 	Integer remain = stockQuantity - quantity; 
     if (remain < 0) {
-    	throw new NotEnoughStockException(NOT_ENOUGH_STOCK.getMessage() + " 남은양 : " + remain);
+    	throw new NotEnoughStockException(NOT_ENOUGH_STOCK.getMessage() + " 남은양 : " + stockQuantity);
     }
     this.stockQuantity = remain;
   }
@@ -55,6 +64,29 @@ public class Menu extends BaseTimeEntity{
     this.name = name;
     this.price = price;
     this.stockQuantity = stockQuantity;
+    validateIntegrity();
   }
+
+  /**
+	 * 스스로 각 필드의 무결성을 검증합니다.
+	 * DB에 저장되기 전에 호출됩니다.
+	 */
+	private void validateIntegrity() {
+		if(StringUtils.isBlank(name)
+				||price < 0
+				||stockQuantity < 0) {
+			throw new IllegalStateException(
+				MenuMessage.INTEGRITY_OF_THE_MENU_HAS_BEEN_VIOLATED.getMessage());
+		}
+				
+	}
+	
+	/**
+	 * menu 객체가 영속화되기 전에 초기화하고
+	 * 무결성 검사를 합니다.
+	 */
+	public void init() {
+		validateIntegrity();
+	}
   
 }

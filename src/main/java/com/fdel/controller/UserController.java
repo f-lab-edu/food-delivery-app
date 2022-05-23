@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fdel.dto.user.UserDto;
-import com.fdel.service.UserApplicationService;
+import com.fdel.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 	
-	private final UserApplicationService userApplicationService;
+	private final UserService userApplicationService;
 	
 	@GetMapping("/loginform")
 	public String loginForm() {

@@ -1,6 +1,5 @@
 package com.fdel.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import com.fdel.exception.message.SimpleMessage;
 import com.fdel.exception.message.UserMessage;
@@ -28,7 +26,6 @@ import lombok.NoArgsConstructor;
  * 유저 Entity 클래스입니다.
  */
 @Entity
-@Getter
 @Builder
 @NoArgsConstructor
 public class User extends BaseTimeEntity implements Serializable{
@@ -50,13 +47,9 @@ public class User extends BaseTimeEntity implements Serializable{
 	//OAuth 제공 사이트의 유저 계정 id
 	@Builder.Default
 	private String providerId = "none";
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "user")
-	private List<Order> orders = new ArrayList<>();
-
+	
 	@Getter
-	public enum Role {
+	public static enum Role {
 		ORDERER("ROLE_ORDERER"),
 		STORE_OWNER("ROLE_STORE_OWNER");
 		
@@ -106,7 +99,7 @@ public class User extends BaseTimeEntity implements Serializable{
 		this.providerId = providerId;
 	}
 	
-	public User(Long id, String username, String password,
+	public User(Long id, String username, String password, 
 			String email, List<Role> roles, Provider provider,
 			String providerId) {
 		this.id = id;
@@ -127,6 +120,15 @@ public class User extends BaseTimeEntity implements Serializable{
 	public void init(Provider provider) {
 		this.provider = provider;
 		validateIntegrity();
+	}
+	
+	public Long getId() {
+		return id;
+	}
+	
+	//테스트를 위해 추가
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	public String getUsername() {

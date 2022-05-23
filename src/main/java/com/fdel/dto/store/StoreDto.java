@@ -1,8 +1,8 @@
 package com.fdel.dto.store;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class StoreDto {
 	
 	private Long id;

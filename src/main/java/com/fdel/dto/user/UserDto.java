@@ -10,7 +10,7 @@ import com.fdel.entity.User;
 import com.fdel.entity.User.Role;
 import com.fdel.service.auth.provider.Provider;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -19,7 +19,7 @@ import lombok.ToString;
  * 회원가입 form 정보를 받아오는 
  * DTO 클래스입니다.
  */
-@Data
+@Getter
 @ToString
 @NoArgsConstructor
 public class UserDto {

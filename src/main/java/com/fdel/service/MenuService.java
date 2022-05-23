@@ -26,25 +26,26 @@ public class MenuService {
 
   	@Transactional
   	public void regist(MenuDto menuDto) {
-	  	menuRepository.save(menuDto.toEntity()).getId();
+  		Menu menu = menuDto.toEntity();
+  		menu.init(); //영속화 전 초기화 및 무결성 검사
+	  	menuRepository.save(menu);
   	}
 
   	@Transactional
   	public void update(MenuDto menuDto) {
-	  Menu menu = menuRepository
-		.findById(menuDto.getId())
-		.orElseThrow(() -> 
-			new EntityNotFoundException(MENU_ENTITY_NOT_FOUND.getMessage()));
-		menu.update(menuDto.getName(),menuDto.getPrice(), menuDto.getStockQuantity());
+  		Menu menu = menuRepository
+			.findById(menuDto.getId())
+			.orElseThrow(() -> 
+				new EntityNotFoundException(MENU_ENTITY_NOT_FOUND.getMessage()));
+  		menu.update(menuDto.getName(),menuDto.getPrice(), menuDto.getStockQuantity());
   	}
 
   	@Transactional
   	public void delete (Long menuId) {
-	  Menu menu = menuRepository
-		.findById(menuId)
-        .orElseThrow(() -> 
-        	new EntityNotFoundException(MENU_ENTITY_NOT_FOUND.getMessage()));
-
+  		Menu menu = menuRepository
+			.findById(menuId)
+			.orElseThrow(() -> 
+        		new EntityNotFoundException(MENU_ENTITY_NOT_FOUND.getMessage()));
     	menuRepository.delete(menu);
   	}
 
@@ -70,8 +71,7 @@ public class MenuService {
   		return menuRepository
 		  .findAll()
 		  .stream()
-		  .map(menuEntity->
-		  		new MenuDto(menuEntity))
+		  .map(MenuDto::new)
 		  .collect(Collectors.toList());
   	}
 

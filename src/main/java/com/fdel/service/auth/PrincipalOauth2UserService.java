@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.fdel.entity.User;
 import com.fdel.entity.User.Role;
-import com.fdel.service.UserApplicationService;
+import com.fdel.service.UserService;
 import com.fdel.service.auth.provider.OAuth2UserInfo;
 import com.fdel.service.auth.provider.Provider;
 
@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 	
 	private final PasswordEncoder passwordEncoder;
-	private final UserApplicationService userApplicationService;
+	private final UserService userApplicationService;
 	
 	/*
 	 * 인증 처리후 구글로 부터 받은 userRequst 데이터에 대한 후처리 함수

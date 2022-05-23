@@ -14,6 +14,7 @@ import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver;
 import org.springframework.session.Session;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -23,6 +24,8 @@ import com.fdel.controller.authmockconfig.WithMockOrderer;
 import com.fdel.controller.authmockconfig.WithMockStoreOwner;
 import com.fdel.entity.User.Role;
 
+
+@ActiveProfiles("test")
 @SpringBootTest
 class AuthorizationTestControllerTest {
 
