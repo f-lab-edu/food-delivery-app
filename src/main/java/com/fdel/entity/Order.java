@@ -26,7 +26,7 @@ public class Order extends BaseTimeEntity{
   @JoinColumn(name = "user_id")
   private User user;
 
-  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<OrderMenu> orderMenuList = new ArrayList<>();
 
   @Enumerated(EnumType.STRING)
