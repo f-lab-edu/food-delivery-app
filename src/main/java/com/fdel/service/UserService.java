@@ -20,6 +20,8 @@ public interface UserService {
 	 * 
 	 * @param userDto form으로부터 받아온 정보다.
 	 */
+
   void regist(UserDto userDto);
 	void regist(User user);
+
 }

@@ -71,4 +71,5 @@ public class Order extends BaseTimeEntity{
   public int getTotalPrice() {
     return orderMenuList.stream().mapToInt(OrderMenu::getTotalPrice).sum();
   }
+
 }
