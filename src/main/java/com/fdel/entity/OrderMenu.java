@@ -30,7 +30,7 @@ public class OrderMenu {
   /**
    * OrderMenu 생성
    */
-  public static OrderMenu createOrderMenu(Menu menu, int orderPrice, int count) {
+  public static OrderMenu createOrderMenu(Menu menu, Integer orderPrice, Integer count) {
     OrderMenu orderMenu = new OrderMenu();
     orderMenu.changeMenu(menu);
     orderMenu.changeOrderPrice(orderPrice);
@@ -40,11 +40,11 @@ public class OrderMenu {
     return orderMenu;
   }
 
-  private void changeCount(int count) {
+  private void changeCount(Integer count) {
     this.count = count;
   }
 
-  private void changeOrderPrice(int orderPrice) {
+  private void changeOrderPrice(Integer orderPrice) {
     this.orderPrice = orderPrice;
   }
 
