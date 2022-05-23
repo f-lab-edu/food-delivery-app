@@ -13,12 +13,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "orders") // "order" 는 MYSQL 예약어로 사용 불가
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Order {
+public class Order extends BaseTimeEntity{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "orders_id")
   private Long id;
+
+
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
@@ -27,15 +29,9 @@ public class Order {
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<OrderMenu> orderMenuList = new ArrayList<>();
 
-  private LocalDateTime orderDate; //주문시간
-
   @Enumerated(EnumType.STRING)
   private OrderStatus orderStatus; //주문상태 (ORDER, CANCEL)
 
-  public void changeUser(User user) {
-    this.user = user;
-    user.getOrders().add(this);
-  }
   public void addOrderMenu(OrderMenu orderMenu) {
     orderMenuList.add(orderMenu);
     orderMenu.changeOrder(this);
@@ -45,19 +41,18 @@ public class Order {
     this.orderStatus = orderStatus;
   }
 
-  public void changeOrderDate(LocalDateTime time) {
-    this.orderDate = time;
-  }
-
   /**
    * Order 생성
    */
+  private Order(User user) {
+    this.user = user;
+    user.getOrders().add(this);
+  }
+
   public static Order createOrder(User user, OrderMenu... orderMenus) {
-    Order order = new Order();
-    order.changeUser(user);
+    Order order = new Order(user);
     Arrays.stream(orderMenus).forEach(order::addOrderMenu);
     order.changeStatus(OrderStatus.ORDER);
-    order.changeOrderDate(LocalDateTime.now());
     return order;
   }
 
