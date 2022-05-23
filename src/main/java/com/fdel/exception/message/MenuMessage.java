@@ -6,9 +6,9 @@ public enum MenuMessage {
 	NOT_ENOUGH_STOCK("재고량이 충분하지 않습니다."),
 	INTEGRITY_OF_THE_MENU_HAS_BEEN_VIOLATED("메뉴 엔터티의 무결성이 위배되었습니다.");
 	
-	private String message;
+	private final String message;
 	
-	private MenuMessage(String message) {
+	MenuMessage(String message) {
 		this.message = message;
 	}
 	

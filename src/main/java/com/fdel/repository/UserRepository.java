@@ -14,5 +14,7 @@ import com.fdel.entity.User;
 public interface UserRepository 
 		extends JpaRepository<User, Long>{
 	
-	public Optional<User> findByUsername(String username); //Jpa Query methods
+	Optional<User> findByUsername(String username); //Jpa Query methods
+
+	Optional<User> findById(Long userId);
 }

@@ -27,7 +27,7 @@ public enum Provider{
 	 * 		response={id= sadmsakda, email=someEmail@naver.com, name=홍길동}} 형태이다.
 	 */
 	
-	private String provider;
+	private final String provider;
 	Function<OAuth2User, OAuth2UserInfo> oAuth2UserInfoMaker;
 	
 	Provider(String provider, Function<OAuth2User, OAuth2UserInfo> oAuth2UserInfoMaker){

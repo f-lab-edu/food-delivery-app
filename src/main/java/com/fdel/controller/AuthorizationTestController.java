@@ -82,7 +82,7 @@ public class AuthorizationTestController {
 		if(authentication != null && principalDetails != null){
 			PrincipalDetails principalDetails2 = (PrincipalDetails) authentication.getPrincipal();
 			
-			String[] authorites= (String[])authentication
+			String[] authorites= authentication
 					.getAuthorities().stream().map(e->e.getAuthority()).toArray(String[]::new);
 			
 			log.info("============App=============");
