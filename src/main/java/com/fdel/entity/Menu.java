@@ -40,13 +40,6 @@ public class Menu extends BaseTimeEntity{
     validateIntegrity();
   }
   
-  /*
-   * 테스트를 위해서 id setter 추가
-   */
-  public void setId(Long id) {
-	  this.id = id;
-  }
-  
   public void addStock(Integer quantity) {
     this.stockQuantity += quantity;
     validateIntegrity();
@@ -67,10 +60,9 @@ public class Menu extends BaseTimeEntity{
     validateIntegrity();
   }
 
-  /**
-	 * 스스로 각 필드의 무결성을 검증합니다.
-	 * DB에 저장되기 전에 호출됩니다.
-	 */
+  	/**
+  	 * 스스로 각 필드의 무결성을 검증합니다.
+  	 */
 	private void validateIntegrity() {
 		if(StringUtils.isBlank(name)
 				||price < 0

@@ -30,6 +30,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User extends BaseTimeEntity implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -124,11 +126,6 @@ public class User extends BaseTimeEntity implements Serializable{
 	
 	public Long getId() {
 		return id;
-	}
-	
-	//테스트를 위해 추가
-	public void setId(Long id) {
-		this.id = id;
 	}
 	
 	public String getUsername() {

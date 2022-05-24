@@ -1,4 +1,4 @@
-package com.fdel.repository.memorryRepository.menu;
+package com.fdel.repository.memoryRepository.menu;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fdel.entity.Menu;
 import com.fdel.exception.message.EntityMessage;
+import com.fdel.repository.memoryRepository.PrivateSetter;
 
 /*
  * 병렬로 테스트 하기 위해 만든 메모리 레포지토리입니다.
@@ -19,7 +20,7 @@ import com.fdel.exception.message.EntityMessage;
 @Profile("test")
 @Primary
 @Repository
-public class MenuMemorryRepository extends MenuBaseMemorryRepository{
+public class MenuMemoryRepository extends MenuBaseMemoryRepository{
 	
 	private final ThreadLocal<Map<Long, Menu>> localMap = ThreadLocal.withInitial(HashMap::new);
 	private final ThreadLocal<Long> localSequence = ThreadLocal.withInitial(()->1L);
@@ -42,7 +43,7 @@ public class MenuMemorryRepository extends MenuBaseMemorryRepository{
 		}
 		
 		Long nextSequence = localSequence.get();
-		menu.setId(nextSequence);
+		PrivateSetter.setId(menu, nextSequence);
 		
 		map.put(nextSequence, menu);
 		

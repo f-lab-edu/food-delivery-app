@@ -1,10 +1,11 @@
 package com.fdel.repository;
 
-import com.fdel.entity.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.fdel.entity.Store;
+
 @Repository
-public interface MenuRepository 
-		extends JpaRepository<Menu, Long> {
+public interface StoreRepository 
+		extends JpaRepository<Store, Long>{
 }

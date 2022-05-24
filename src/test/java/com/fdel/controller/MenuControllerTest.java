@@ -1,10 +1,13 @@
 package com.fdel.controller;
 
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.hamcrest.Matchers;
+import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -116,10 +119,9 @@ class MenuControllerTest {
 		mock.perform(delete("/menus/1"));
 		
 		//then
-		mock.perform(get("/menus"))
-			.andExpect(jsonPath("$", Matchers.hasSize(1)))
-			.andExpect(jsonPath("$[0].name").value(mockMenuDto1.getName()));
-		
+		List<MenuDto> allMenuDtoList = menuService.findAll();
+		assertThat(allMenuDtoList.size(), equalTo(1));
+		assertThat(allMenuDtoList.get(0).getName(), equalTo(mockMenuDto1.getName()));		
 	}
 	
 	@Test
@@ -147,10 +149,10 @@ class MenuControllerTest {
 	            .andExpect(status().isOk());
 		
 		//then
-		mock.perform(get("/menus/1"))
-			.andExpect(jsonPath("$.name").value(patchInfo.getName()))
-			.andExpect(jsonPath("$.price").value(patchInfo.getPrice()))
-			.andExpect(jsonPath("$.stockQuantity").value(patchInfo.getStockQuantity()));	
+		MenuDto findMenuDto = menuService.findById(1L);
+		assertThat(findMenuDto.getName(), equalTo(patchInfo.getName()));
+		assertThat(findMenuDto.getPrice(), equalTo(patchInfo.getPrice()));
+		assertThat(findMenuDto.getStockQuantity(), equalTo(patchInfo.getStockQuantity()));	
 	}
 	
 	
@@ -161,24 +163,18 @@ class MenuControllerTest {
 		
 		//when
 		ObjectMapper objectMapper = new ObjectMapper();
-		MenuDto patchInfo = 
-			MenuDto.builder()
-				.name("치킨")
-				.price(8000)
-				.stockQuantity(70)
-				.build();
 		
 		mock.perform(post("/menus")
 					.contentType(MediaType.APPLICATION_JSON)
-		            .content(objectMapper.writeValueAsString(patchInfo))
+		            .content(objectMapper.writeValueAsString(mockMenuDto0))
 	            .accept(MediaType.APPLICATION_JSON))
 	            .andExpect(status().isOk());
 		
 		//then
-		mock.perform(get("/menus/1"))
-			.andExpect(jsonPath("$.name").value(patchInfo.getName()))
-			.andExpect(jsonPath("$.price").value(patchInfo.getPrice()))
-			.andExpect(jsonPath("$.stockQuantity").value(patchInfo.getStockQuantity()));	
+		MenuDto findMenuDto = menuService.findById(1L);
+		assertThat(findMenuDto.getName(), equalTo(mockMenuDto0.getName()));
+		assertThat(findMenuDto.getPrice(), equalTo(mockMenuDto0.getPrice()));
+		assertThat(findMenuDto.getStockQuantity(), equalTo(mockMenuDto0.getStockQuantity()));
 	}
 
 }

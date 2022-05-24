@@ -1,4 +1,4 @@
-package com.fdel.repository.memorryRepository.user;
+package com.fdel.repository.memoryRepository.store;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,31 +10,31 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 
-import com.fdel.entity.User;
-import com.fdel.repository.UserRepository;
+import com.fdel.entity.Store;
+import com.fdel.repository.StoreRepository;
 
-public class UserBaseMemorryRepository implements UserRepository{
+public class StoreBaseMemoryRepository implements StoreRepository{
 
 	@Override
-	public List<User> findAll() {
+	public List<Store> findAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<User> findAll(Sort sort) {
+	public List<Store> findAll(Sort sort) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<User> findAllById(Iterable<Long> ids) {
+	public List<Store> findAllById(Iterable<Long> ids) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <S extends User> List<S> saveAll(Iterable<S> entities) {
+	public <S extends Store> List<S> saveAll(Iterable<S> entities) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -46,19 +46,19 @@ public class UserBaseMemorryRepository implements UserRepository{
 	}
 
 	@Override
-	public <S extends User> S saveAndFlush(S entity) {
+	public <S extends Store> S saveAndFlush(S entity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <S extends User> List<S> saveAllAndFlush(Iterable<S> entities) {
+	public <S extends Store> List<S> saveAllAndFlush(Iterable<S> entities) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deleteAllInBatch(Iterable<User> entities) {
+	public void deleteAllInBatch(Iterable<Store> entities) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -76,43 +76,43 @@ public class UserBaseMemorryRepository implements UserRepository{
 	}
 
 	@Override
-	public User getOne(Long id) {
+	public Store getOne(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public User getById(Long id) {
+	public Store getById(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <S extends User> List<S> findAll(Example<S> example) {
+	public <S extends Store> List<S> findAll(Example<S> example) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <S extends User> List<S> findAll(Example<S> example, Sort sort) {
+	public <S extends Store> List<S> findAll(Example<S> example, Sort sort) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Page<User> findAll(Pageable pageable) {
+	public Page<Store> findAll(Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <S extends User> S save(S entity) {
+	public <S extends Store> S save(S entity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Optional<User> findById(Long id) {
+	public Optional<Store> findById(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -136,7 +136,7 @@ public class UserBaseMemorryRepository implements UserRepository{
 	}
 
 	@Override
-	public void delete(User entity) {
+	public void delete(Store entity) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -148,7 +148,7 @@ public class UserBaseMemorryRepository implements UserRepository{
 	}
 
 	@Override
-	public void deleteAll(Iterable<? extends User> entities) {
+	public void deleteAll(Iterable<? extends Store> entities) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -160,37 +160,31 @@ public class UserBaseMemorryRepository implements UserRepository{
 	}
 
 	@Override
-	public <S extends User> Optional<S> findOne(Example<S> example) {
+	public <S extends Store> Optional<S> findOne(Example<S> example) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <S extends User> Page<S> findAll(Example<S> example, Pageable pageable) {
+	public <S extends Store> Page<S> findAll(Example<S> example, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <S extends User> long count(Example<S> example) {
+	public <S extends Store> long count(Example<S> example) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public <S extends User> boolean exists(Example<S> example) {
+	public <S extends Store> boolean exists(Example<S> example) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public <S extends User, R> R findBy(Example<S> example, Function<FetchableFluentQuery<S>, R> queryFunction) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Optional<User> findByUsername(String username) {
+	public <S extends Store, R> R findBy(Example<S> example, Function<FetchableFluentQuery<S>, R> queryFunction) {
 		// TODO Auto-generated method stub
 		return null;
 	}
