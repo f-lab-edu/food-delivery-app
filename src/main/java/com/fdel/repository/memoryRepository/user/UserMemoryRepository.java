@@ -1,4 +1,4 @@
-package com.fdel.repository.memorryRepository.user;
+package com.fdel.repository.memoryRepository.user;
 
 import static com.fdel.exception.message.EntityMessage.*;
 
@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.fdel.entity.User;
+import com.fdel.repository.memoryRepository.PrivateSetter;
 
 /*
  * 병렬로 테스트 하기 위해 만든 메모리 레포지토리입니다.
@@ -20,7 +21,7 @@ import com.fdel.entity.User;
 @Primary
 @Profile("test")
 @Repository
-public class UserMemorryRepository extends UserBaseMemorryRepository{
+public class UserMemoryRepository extends UserBaseMemoryRepository{
 
 	private final ThreadLocal<Map<Long, User>> localMap = ThreadLocal.withInitial(HashMap::new);
 	private final ThreadLocal<Long> localSequence = ThreadLocal.withInitial(()->1L);
@@ -43,7 +44,7 @@ public class UserMemorryRepository extends UserBaseMemorryRepository{
 		}
 		
 		Long nextSequence = localSequence.get();
-		user.setId(nextSequence);
+		PrivateSetter.setId(user, nextSequence);
 		
 		map.put(nextSequence, user);
 		

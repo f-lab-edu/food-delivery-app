@@ -1,6 +1,5 @@
 package com.fdel.entity;
 
-import static com.fdel.exception.message.EntityMessage.*;
 import static com.fdel.exception.message.MenuMessage.*;
 
 import javax.persistence.Column;
@@ -39,14 +38,6 @@ public class Menu extends BaseTimeEntity{
     this.price = price;
     this.stockQuantity = stockQuantity;
     validateIntegrity();
-  }
-  
-  // 테스트를 위해서 id setter 추가
-  public void setId(Long id) {
-	  if(this.id != null) {
-		  throw new IllegalStateException(ID_ALREADY_EXISTS.getMessage());
-	  }
-	  this.id = id;
   }
   
   public void addStock(Integer quantity) {

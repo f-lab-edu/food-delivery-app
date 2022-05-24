@@ -1,4 +1,4 @@
-package com.fdel.repository.memorryRepository.store;
+package com.fdel.repository.memoryRepository.store;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuer
 import com.fdel.entity.Store;
 import com.fdel.repository.StoreRepository;
 
-public class StoreBaseMemorryRepository implements StoreRepository{
+public class StoreBaseMemoryRepository implements StoreRepository{
 
 	@Override
 	public List<Store> findAll() {

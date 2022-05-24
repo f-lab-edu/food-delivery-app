@@ -1,4 +1,4 @@
-package com.fdel.repository.memorryRepository.store;
+package com.fdel.repository.memoryRepository.store;
 
 import static com.fdel.exception.message.EntityMessage.*;
 
@@ -13,13 +13,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.fdel.entity.Store;
-import com.fdel.entity.User;
-import com.fdel.exception.message.EntityMessage;
+import com.fdel.repository.memoryRepository.PrivateSetter;
 
 @Primary
 @Profile("test")
 @Repository
-public class StoreMemorryRepository extends StoreBaseMemorryRepository{
+public class StoreMemoryRepository extends StoreBaseMemoryRepository {
 	
 	private final ThreadLocal<Map<Long, Store>> localMap = ThreadLocal.withInitial(HashMap::new);
 	private final ThreadLocal<Long> localSequence = ThreadLocal.withInitial(()->1L);
@@ -42,8 +41,7 @@ public class StoreMemorryRepository extends StoreBaseMemorryRepository{
 		}
 		
 		Long nextSequence = localSequence.get();
-		store.setId(nextSequence);
-		
+		PrivateSetter.setId(store, nextSequence);
 		map.put(nextSequence, store);
 		
 		nextSequence++;

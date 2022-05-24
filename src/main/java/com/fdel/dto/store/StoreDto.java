@@ -1,5 +1,8 @@
 package com.fdel.dto.store;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+
 import com.fdel.entity.Store;
 
 import lombok.Builder;
@@ -11,8 +14,11 @@ import lombok.NoArgsConstructor;
 public class StoreDto {
 	
 	private Long id;
+	@NotBlank
 	private String name;
+	@NotBlank
 	private String address;
+	@Positive
 	private Integer zipcode;
 	
 	public StoreDto(Store store) {

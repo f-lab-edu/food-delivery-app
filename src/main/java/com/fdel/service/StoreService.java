@@ -36,7 +36,11 @@ public class StoreService {
 			.findById(storeDto.getId())
 			.orElseThrow(() -> 
 				new EntityNotFoundException(STORE_ENTITY_NOT_FOUND.getMessage()));
-  		store.update(storeDto);
+  		store.updater()
+  			.name(storeDto.getName())
+  			.address(storeDto.getAddress())
+  			.zipcode(storeDto.getZipcode())
+  			.update();
   	}
 
   	@Transactional

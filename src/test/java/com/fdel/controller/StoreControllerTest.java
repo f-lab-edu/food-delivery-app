@@ -48,8 +48,8 @@ public class StoreControllerTest {
 	
 	private MockMvc mock;
 	
-	private StoreDto storeDto0;
 	private StoreDto storeDto1;
+	private StoreDto storeDto2;
 	
 	@BeforeEach
 	void setup() {
@@ -59,8 +59,10 @@ public class StoreControllerTest {
 			.addFilter(sessionRepositoryFilter)
 			.build();
 		
-		storeDto0 = StoreDto.builder().name("갈비집").address("강원도 강릉시 남부로 232").zipcode(25611).build();
-		storeDto1 = StoreDto.builder().name("치킨집").address("강원도 강릉시 사천면 해안로 1166").zipcode(25435).build();
+		storeDto1 = StoreDto.builder().id(1L).name("갈비집").address("강원도 강릉시 남부로 232").zipcode(25611).build();
+		storeDto2 = StoreDto.builder().id(2L).name("치킨집").address("강원도 강릉시 사천면 해안로 1166").zipcode(25435).build();
+		System.out.println("stroeDto1 id = " + storeDto1.getId());
+		System.out.println("stroeDto2 id = " + storeDto2.getId());
 		
 	}
 	
@@ -77,13 +79,13 @@ public class StoreControllerTest {
 	void when_requestStore_then_reponseTheStoreInfo() throws Exception {
 		
 		//given
-		storeService.regist(storeDto0);
+		storeService.regist(storeDto1);
 		
 		//when //then
 		mock.perform(get("/stores/1"))
-			.andExpect(jsonPath("$.name").value(storeDto0.getName()))
-			.andExpect(jsonPath("$.address").value(storeDto0.getAddress()))
-			.andExpect(jsonPath("$.zipcode").value(storeDto0.getZipcode()));
+			.andExpect(jsonPath("$.name").value(storeDto1.getName()))
+			.andExpect(jsonPath("$.address").value(storeDto1.getAddress()))
+			.andExpect(jsonPath("$.zipcode").value(storeDto1.getZipcode()));
 	}
 	
 	@Test
@@ -92,17 +94,17 @@ public class StoreControllerTest {
 	void when_requestStoreList_then_responseTheStoreListInfo() throws Exception {
 		
 		//given
-		storeService.regist(storeDto0);
 		storeService.regist(storeDto1);
+		storeService.regist(storeDto2);
 		
 		//when //then
 		mock.perform(get("/stores"))
-			.andExpect(jsonPath("$[0].name").value(storeDto0.getName()))
-			.andExpect(jsonPath("$[0].address").value(storeDto0.getAddress()))
-			.andExpect(jsonPath("$[0].zipcode").value(storeDto0.getZipcode()))
-			.andExpect(jsonPath("$[1].name").value(storeDto1.getName()))
-			.andExpect(jsonPath("$[1].address").value(storeDto1.getAddress()))
-			.andExpect(jsonPath("$[1].zipcode").value(storeDto1.getZipcode()));
+			.andExpect(jsonPath("$[0].name").value(storeDto1.getName()))
+			.andExpect(jsonPath("$[0].address").value(storeDto1.getAddress()))
+			.andExpect(jsonPath("$[0].zipcode").value(storeDto1.getZipcode()))
+			.andExpect(jsonPath("$[1].name").value(storeDto2.getName()))
+			.andExpect(jsonPath("$[1].address").value(storeDto2.getAddress()))
+			.andExpect(jsonPath("$[1].zipcode").value(storeDto2.getZipcode()));
 	}
 	
 	@Test
@@ -111,8 +113,8 @@ public class StoreControllerTest {
 	void when_requestDeleteId1Store_then_deleteTheId1Store() throws Exception {
 	
 		//given
-		storeService.regist(storeDto0);
 		storeService.regist(storeDto1);
+		storeService.regist(storeDto2);
 		
 		//when
 		mock.perform(delete("/stores/1"));
@@ -120,7 +122,7 @@ public class StoreControllerTest {
 		//then
 		List<StoreDto> allStoreDtoList = storeService.findAll();
 		assertThat(allStoreDtoList.size(), equalTo(1));
-		assertThat(allStoreDtoList.get(0).getName(), equalTo(storeDto1.getName()));
+		assertThat(allStoreDtoList.get(0).getName(), equalTo(storeDto2.getName()));
 	}
 	
 	@Test
@@ -129,7 +131,7 @@ public class StoreControllerTest {
 	void when_requestPatchId1Store_then_updateTheId1Store() throws Exception {
 		
 		//given
-		storeService.regist(storeDto0);
+		storeService.regist(storeDto1);
 		
 		//when
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -165,14 +167,14 @@ public class StoreControllerTest {
 		
 		mock.perform(post("/stores")
 					.contentType(MediaType.APPLICATION_JSON)
-		            .content(objectMapper.writeValueAsString(storeDto0))
+		            .content(objectMapper.writeValueAsString(storeDto1))
 	            .accept(MediaType.APPLICATION_JSON))
 	            .andExpect(status().isOk());
 		
 		//then
 		StoreDto findStoreDto = storeService.findById(1L);
-		assertThat(findStoreDto.getName(), equalTo(storeDto0.getName()));
-		assertThat(findStoreDto.getAddress(), equalTo(storeDto0.getAddress()));
-		assertThat(findStoreDto.getZipcode(), equalTo(storeDto0.getZipcode()));
+		assertThat(findStoreDto.getName(), equalTo(storeDto1.getName()));
+		assertThat(findStoreDto.getAddress(), equalTo(storeDto1.getAddress()));
+		assertThat(findStoreDto.getZipcode(), equalTo(storeDto1.getZipcode()));
 	}
 }

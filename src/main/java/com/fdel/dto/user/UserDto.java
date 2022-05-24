@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fdel.entity.User;
@@ -24,8 +26,11 @@ import lombok.ToString;
 @NoArgsConstructor
 public class UserDto {
 	
+	@NotBlank
 	String username;
+	@NotBlank
 	String password;
+	@NotBlank
 	String email;
 	
 	/**

@@ -1,7 +1,5 @@
 package com.fdel.entity;
 
-import static com.fdel.exception.message.EntityMessage.*;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +29,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 public class User extends BaseTimeEntity implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -126,14 +126,6 @@ public class User extends BaseTimeEntity implements Serializable{
 	
 	public Long getId() {
 		return id;
-	}
-	
-	//테스트를 위해 추가
-	public void setId(Long id) {
-		if(this.id != null) {
-			throw new IllegalStateException(ID_ALREADY_EXISTS.getMessage());
-		}
-		this.id = id;
 	}
 	
 	public String getUsername() {

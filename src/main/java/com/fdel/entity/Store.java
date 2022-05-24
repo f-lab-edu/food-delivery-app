@@ -1,6 +1,5 @@
 package com.fdel.entity;
 
-import static com.fdel.exception.message.EntityMessage.*;
 import static com.fdel.exception.message.StoreMessage.*;
 
 import javax.persistence.Column;
@@ -9,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.fdel.dto.store.StoreDto;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 
 import lombok.Builder;
@@ -37,13 +35,6 @@ public class Store extends BaseTimeEntity{
 		validateIntegrity();
 	}
 	
-	public void update(StoreDto storeDto) {
-		this.name = storeDto.getName();
-		this.address = storeDto.getAddress();
-		this.zipcode = storeDto.getZipcode();
-		validateIntegrity();
-	}
-	
   	/**
   	 * 스스로 각 필드의 무결성을 검증합니다.
   	 */
@@ -53,8 +44,7 @@ public class Store extends BaseTimeEntity{
 				||zipcode <= 0) {
 			throw new IllegalStateException(
 				INTEGRITY_OF_THE_STORE_HAS_BEEN_VIOLATED.getMessage());
-		}
-				
+		}	
 	}
 	
 	/**
@@ -65,12 +55,53 @@ public class Store extends BaseTimeEntity{
 		validateIntegrity();
 	}
 	
-	//테스트를 위해 추가
-	public void setId(Long id) {
-		if(this.id != null) {
-			throw new IllegalStateException(ID_ALREADY_EXISTS.getMessage());
+	private void setName(String name) {
+		this.name = name;
+	}
+	private void setAddress(String address) {
+		this.address = address;
+	}
+	private void setZipcode(Integer zipcode) {
+		this.zipcode = zipcode;
+	}
+	
+	public Updater updater() {
+		return new Updater(this);
+	}
+	
+	/*
+	 * 업데이트가 필요한 필드에 따라
+	 * 동적으로 update api를 제공하기 위해서
+	 * updater를 만들었습니다.
+	 */
+	public class Updater {
+		private Store store;
+		private String name;
+		private String address;
+		private Integer zipcode;
+		
+		private Updater(Store store) {
+			this.store = store;
 		}
-		this.id = id;
+		
+		public Updater name(String name) {
+			this.name = name;
+			return this;
+		}
+		public Updater address(String address) {
+			this.address = address;
+			return this;
+		}
+		public Updater zipcode(Integer zipcode) {
+			this.zipcode = zipcode;
+			return this;
+		}
+		public void update() {
+			store.setName(name);
+			store.setAddress(address);
+			store.setZipcode(zipcode);
+			store.validateIntegrity();
+		}
 	}
 
 }

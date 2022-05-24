@@ -1,5 +1,9 @@
 package com.fdel.dto.menu;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+
 import com.fdel.entity.Menu;
 
 import lombok.Builder;
@@ -11,9 +15,11 @@ import lombok.NoArgsConstructor;
 public class MenuDto {
 
 	private Long id;
-
+	@NotBlank
 	private String name;
+	@PositiveOrZero
 	private Integer price;
+	@Positive
 	private Integer stockQuantity;
 	
 	public MenuDto(Menu menu) {

@@ -24,7 +24,7 @@ public class StoreController {
 	  private final StoreService storeService;
 
 	  @PostMapping
-	  public void regis(@RequestBody StoreDto storeDto) {
+	  public void regist(@RequestBody StoreDto storeDto) {
 		  storeService.regist(storeDto);
 	  }
 
