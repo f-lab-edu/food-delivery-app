@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/oders")
+@RequestMapping("/orders")
 @RequiredArgsConstructor
 @RestController
 public class OrderController {
@@ -20,7 +20,7 @@ public class OrderController {
   private final OrderService orderService;
 
   @PostMapping
-  public void order(@RequestParam("userId") Long userId,
+  public void addOrder(@RequestParam("userId") Long userId,
       @RequestParam("menuId") Long menuId,
       @RequestParam("count") int count) {
 
