@@ -8,7 +8,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fdel.controller.authmockconfig.WithMockStoreOwner;
 import com.fdel.dto.store.StoreDto;
-import com.fdel.repository.MenuRepository;
+import com.fdel.repository.StoreRepository;
 import com.fdel.service.StoreService;
 
 @SpringBootTest
@@ -44,12 +46,13 @@ public class StoreControllerTest {
 	private StoreService storeService;
 	
 	@Autowired
-	private MenuRepository menuRepository;
+	private StoreRepository storeRepository;
 	
 	private MockMvc mock;
 	
 	private StoreDto storeDto1;
 	private StoreDto storeDto2;
+
 	
 	@BeforeEach
 	void setup() {
@@ -60,16 +63,13 @@ public class StoreControllerTest {
 			.build();
 		
 		storeDto1 = StoreDto.builder().id(1L).name("갈비집").address("강원도 강릉시 남부로 232").zipcode(25611).build();
-		storeDto2 = StoreDto.builder().id(2L).name("치킨집").address("강원도 강릉시 사천면 해안로 1166").zipcode(25435).build();
-		System.out.println("stroeDto1 id = " + storeDto1.getId());
-		System.out.println("stroeDto2 id = " + storeDto2.getId());
-		
+		storeDto2 = StoreDto.builder().id(2L).name("치킨집").address("강원도 강릉시 사천면 해안로 1166").zipcode(25435).build();		
 	}
 	
 	@AfterEach
 	void afterEach() {
 		//만약 같은 스레드에서 test 함수가 두개 이상 실행된다면 deleteAll()이 호출되어야 합니다.
-		menuRepository.deleteAll();
+		storeRepository.deleteAll();
 	}
 	
 	

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -27,7 +28,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Builder
-@NoArgsConstructor
 public class User extends BaseTimeEntity implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -73,7 +73,7 @@ public class User extends BaseTimeEntity implements Serializable{
 		}
 		
 		public static List<Role> StringListToRoleList(List<String> stringRoleList){
-			return stringRoleList.stream().map(e->ofString(e)).toList();
+			return stringRoleList.stream().map(e->ofString(e)).collect(Collectors.toList());
 		}
 	}
 	

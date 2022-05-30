@@ -3,6 +3,7 @@ package com.fdel.repository.converter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.AttributeConverter;
 
@@ -19,7 +20,7 @@ public class UserRolesConverter
 	@Override
 	public String convertToDatabaseColumn(List<Role> attribute) {
 		List<String> StringRoleList = attribute.stream()
-			.map(e->e.getRole()).sorted().toList();
+			.map(e->e.getRole()).sorted().collect(Collectors.toList());
 		
 		return String.join(",", StringRoleList);
 	}
@@ -28,7 +29,7 @@ public class UserRolesConverter
 	public List<Role> convertToEntityAttribute(String dbData) {
 		if(dbData.length() > 0){
             return Arrays.asList(dbData.split(",")).stream()
-            		.map(e->Role.ofString(e)).toList();
+            		.map(e->Role.ofString(e)).collect(Collectors.toList());
         }
 		return new ArrayList<Role>();
 	}
