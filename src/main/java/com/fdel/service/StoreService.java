@@ -12,7 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fdel.dto.store.StoreDto;
 import com.fdel.entity.Store;
+import com.fdel.entity.StoreCategory;
+import com.fdel.entity.StoreStoreCategory;
+import com.fdel.repository.StoreCategoryRepository;
 import com.fdel.repository.StoreRepository;
+import com.fdel.repository.StoreStoreCategoryRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +26,8 @@ import lombok.RequiredArgsConstructor;
 public class StoreService {
 
 	private final StoreRepository storeRepository;
+	private final StoreCategoryRepository storeCategoryRepository;
+	private final StoreStoreCategoryRepository storeStoreCategoryRepository;
 
   	@Transactional
   	public void regist(StoreDto storeDto) {
@@ -32,10 +38,7 @@ public class StoreService {
 
   	@Transactional
   	public void update(StoreDto storeDto) {
-  		Store store = storeRepository
-			.findById(storeDto.getId())
-			.orElseThrow(() -> 
-				new EntityNotFoundException(STORE_ENTITY_NOT_FOUND.getMessage()));
+  		Store store = findStoreEntityById(storeDto.getId());
   		store.updater()
   			.name(storeDto.getName())
   			.address(storeDto.getAddress())
@@ -45,10 +48,7 @@ public class StoreService {
 
   	@Transactional
   	public void delete (Long storeId) {
-  		Store store = storeRepository
-			.findById(storeId)
-			.orElseThrow(() -> 
-        		new EntityNotFoundException(STORE_ENTITY_NOT_FOUND.getMessage()));
+  		Store store = findStoreEntityById(storeId);
     	storeRepository.delete(store);
   	}
 
@@ -61,11 +61,31 @@ public class StoreService {
   	}
 
   	public StoreDto findById(Long storeId) {
-  		Store store = storeRepository
+  		Store store = findStoreEntityById(storeId);
+    	return new StoreDto(store);
+  	}
+
+  	@Transactional
+  	public void addAndRegistCategory(Long storeId, StoreCategory.Name categoryname) {
+  		Store store = findStoreEntityById(storeId);
+  		List<StoreStoreCategory> storeStoreCategoryList = store.getStoreStoreCategoryList();
+  		//같은 카테고리가 이미 존재하면 예외를 발생시킵니다.
+  		storeStoreCategoryList.stream()
+  			.filter(e->e.getStoreCategory()
+				.getName()
+				.equals(categoryname))
+  			.findAny().ifPresent(e->{throw new IllegalStateException(SAME_CATEGORY_ALREADY_EXISTS.getMessage());});
+  		StoreCategory storeCategory = new StoreCategory(categoryname);
+  		storeCategoryRepository.save(storeCategory);
+  		StoreStoreCategory storeStoreCategory = new StoreStoreCategory(store, storeCategory);
+  		storeStoreCategoryRepository.save(storeStoreCategory);
+  	}
+  	
+	private Store findStoreEntityById(Long storeId) {
+		return storeRepository
 			.findById(storeId)
 			.orElseThrow(() -> 
 				new EntityNotFoundException(STORE_ENTITY_NOT_FOUND.getMessage()));
-    	return new StoreDto(store);
-  	}
+	}
 
 }

@@ -2,19 +2,25 @@ package com.fdel.entity;
 
 import static com.fdel.exception.message.StoreMessage.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@NoArgsConstructor //이게 없으면 org.springframework.orm.jpa.JpaSystemException: No default constructor for entity 애러 발생
 public class Store extends BaseTimeEntity{
 
 	@Id
@@ -25,6 +31,9 @@ public class Store extends BaseTimeEntity{
 	private String name;
 	private String address;
 	private Integer zipcode;
+	
+	@OneToMany(mappedBy = "store")
+	private List<StoreStoreCategory> storeStoreCategoryList = new ArrayList<>();
   
 	@Builder
 	public Store(Long id, String name, String address, Integer zipcode) {
@@ -96,6 +105,7 @@ public class Store extends BaseTimeEntity{
 			this.zipcode = zipcode;
 			return this;
 		}
+		
 		public void update() {
 			store.setName(name);
 			store.setAddress(address);
