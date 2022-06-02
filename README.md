@@ -28,6 +28,6 @@ Spring boot, Gradle, Redis, Docker, MySQL, Jenkins, Java11, Naver Cloud Platform
 [Wiki 바로가기](https://github.com/f-lab-edu/food-delivery-app/wiki)
 
 ## ERD
-2020-04-06 수정 (Deliver는 추후 추가 예정)
-![fooddeliveryapp_er_diagram_1](https://user-images.githubusercontent.com/86475543/171003266-36c6af11-b4c2-4f65-bd26-f81aa911f8f1.png)
+2022-06-02 수정 (Deliver는 추후 추가 예정)
 
+![fooddeliveryapp_er_diagram_2](https://user-images.githubusercontent.com/86475543/171583968-b0c751dd-aad7-470e-8560-0c86adba94bc.png)
