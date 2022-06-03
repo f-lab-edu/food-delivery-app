@@ -1,62 +1,85 @@
 package com.fdel.entity;
 
 import javax.persistence.*;
+
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderMenu {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "order_menu_id")
-  private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@ManyToOne
+	@JoinColumn(name ="order_id")
+	private Order order;
+	
+	@ManyToOne
+	@JoinColumn(name = "menu_id")
+	private Menu menu;
+	
+	private Integer orderPrice;
+	private Integer count;
+	
+	public void changeOrder(Order order) {
+	  this.order = order;
+	}
 
-  @ManyToOne
-  @JoinColumn(name ="order_id")
-  private Order order;
+	/**
+	 * OrderMenu 생성
+	 */
+	public static OrderMenu createOrderMenu(Menu menu, Integer orderPrice, Integer count) {
+	    OrderMenu orderMenu = new OrderMenu();
+	    orderMenu.changeMenu(menu);
+	    orderMenu.changeOrderPrice(orderPrice);
+	    orderMenu.changeCount(count);
+	    
+	    menu.removeStock(count);
+	    return orderMenu;
+	}
 
-  @ManyToOne
-  @JoinColumn(name = "menu_id")
-  private Menu menu;
+	private void changeCount(Integer count) {
+		this.count = count;
+	}
+	
+	private void changeOrderPrice(Integer orderPrice) {
+		this.orderPrice = orderPrice;
+	}
+	
+	private void changeMenu(Menu menu) {
+		this.menu = menu;
+	}
 
-  private Integer orderPrice;
-  private Integer count;
+	public void cancel() {
+		getMenu().addStock(count);
+	}
 
-  public void changeOrder(Order order) {
-    this.order = order;
-  }
+	public int getTotalPrice() {
+		return getOrderPrice() * getCount();
+	}
 
-  /**
-   * OrderMenu 생성
-   */
-  public static OrderMenu createOrderMenu(Menu menu, Integer orderPrice, Integer count) {
-    OrderMenu orderMenu = new OrderMenu();
-    orderMenu.changeMenu(menu);
-    orderMenu.changeOrderPrice(orderPrice);
-    orderMenu.changeCount(count);
-    
-    menu.removeStock(count);
-    return orderMenu;
-  }
+	public Long getId() {
+		return id;
+	}
 
-  private void changeCount(Integer count) {
-    this.count = count;
-  }
+	public Order getOrder() {
+		return order;
+	}
 
-  private void changeOrderPrice(Integer orderPrice) {
-    this.orderPrice = orderPrice;
-  }
+	public Menu getMenu() {
+		return menu;
+	}
 
-  private void changeMenu(Menu menu) {
-    this.menu = menu;
-  }
+	public Integer getOrderPrice() {
+		return orderPrice;
+	}
 
-  public void cancel() {
-    getMenu().addStock(count);
-  }
-
-  public int getTotalPrice() {
-    return getOrderPrice() * getCount();
-  }
+	public Integer getCount() {
+		return count;
+	}
+	
 }

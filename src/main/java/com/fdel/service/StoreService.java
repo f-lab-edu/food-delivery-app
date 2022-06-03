@@ -5,6 +5,7 @@ import static com.fdel.exception.message.StoreMessage.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
@@ -12,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fdel.dto.store.StoreDto;
 import com.fdel.entity.Store;
-import com.fdel.entity.StoreCategory;
-import com.fdel.entity.StoreStoreCategory;
-import com.fdel.repository.StoreCategoryRepository;
+import com.fdel.entity.RestaurantType;
+import com.fdel.entity.StoreRestaurantType;
+import com.fdel.repository.RestaurantTypeRepository;
 import com.fdel.repository.StoreRepository;
-import com.fdel.repository.StoreStoreCategoryRepository;
+import com.fdel.repository.StoreRestaurantTypeRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,8 +27,8 @@ import lombok.RequiredArgsConstructor;
 public class StoreService {
 
 	private final StoreRepository storeRepository;
-	private final StoreCategoryRepository storeCategoryRepository;
-	private final StoreStoreCategoryRepository storeStoreCategoryRepository;
+	private final RestaurantTypeRepository restaurantTypeRepository;
+	private final StoreRestaurantTypeRepository storeRestaurantTypeRepository;
 
   	@Transactional
   	public void regist(StoreDto storeDto) {
@@ -66,19 +67,13 @@ public class StoreService {
   	}
 
   	@Transactional
-  	public void addAndRegistCategory(Long storeId, StoreCategory.Name categoryname) {
+  	public void addAndRegistRestaurantType(Long storeId, RestaurantType.Name restaruantTypeName) {
   		Store store = findStoreEntityById(storeId);
-  		List<StoreStoreCategory> storeStoreCategoryList = store.getStoreStoreCategoryList();
-  		//같은 카테고리가 이미 존재하면 예외를 발생시킵니다.
-  		storeStoreCategoryList.stream()
-  			.filter(e->e.getStoreCategory()
-				.getName()
-				.equals(categoryname))
-  			.findAny().ifPresent(e->{throw new IllegalStateException(SAME_CATEGORY_ALREADY_EXISTS.getMessage());});
-  		StoreCategory storeCategory = new StoreCategory(categoryname);
-  		storeCategoryRepository.save(storeCategory);
-  		StoreStoreCategory storeStoreCategory = new StoreStoreCategory(store, storeCategory);
-  		storeStoreCategoryRepository.save(storeStoreCategory);
+  		RestaurantType restaurantType = new RestaurantType(restaruantTypeName);
+  		restaurantTypeRepository.save(restaurantType);
+  		StoreRestaurantType storeRestaurantType = new StoreRestaurantType(store, restaurantType);
+  		storeRestaurantTypeRepository.save(storeRestaurantType);
+ 		store.updater().addStoreRestaurantType(storeRestaurantType).update();
   	}
   	
 	private Store findStoreEntityById(Long storeId) {

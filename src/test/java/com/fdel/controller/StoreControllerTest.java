@@ -8,14 +8,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
-import org.junit.jupiter.api.AfterAll;
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.session.web.http.SessionRepositoryFilter;
@@ -24,13 +32,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fdel.FoodDeliveryAppApplication;
 import com.fdel.controller.authmockconfig.WithMockStoreOwner;
 import com.fdel.dto.store.StoreDto;
+import com.fdel.repository.OrderRepository;
 import com.fdel.repository.StoreRepository;
+import com.fdel.repository.memoryRepository.store.StoreMemoryRepository;
 import com.fdel.service.StoreService;
 
+
+@Transactional
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles("concurrent-test")
 public class StoreControllerTest {
 	
 	@Autowired
@@ -63,7 +76,10 @@ public class StoreControllerTest {
 			.build();
 		
 		storeDto1 = StoreDto.builder().id(1L).name("갈비집").address("강원도 강릉시 남부로 232").zipcode(25611).build();
-		storeDto2 = StoreDto.builder().id(2L).name("치킨집").address("강원도 강릉시 사천면 해안로 1166").zipcode(25435).build();		
+		storeDto2 = StoreDto.builder().id(2L).name("치킨집").address("강원도 강릉시 사천면 해안로 1166").zipcode(25435).build();
+		
+		System.out.print("storeDto1 id =" + storeDto1.getId());
+		System.out.print("storeDto2 id =" + storeDto2.getId());
 	}
 	
 	@AfterEach
@@ -177,4 +193,5 @@ public class StoreControllerTest {
 		assertThat(findStoreDto.getAddress(), equalTo(storeDto1.getAddress()));
 		assertThat(findStoreDto.getZipcode(), equalTo(storeDto1.getZipcode()));
 	}
+	
 }

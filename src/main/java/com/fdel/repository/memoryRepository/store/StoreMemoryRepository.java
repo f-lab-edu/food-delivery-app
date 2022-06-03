@@ -16,7 +16,7 @@ import com.fdel.entity.Store;
 import com.fdel.repository.memoryRepository.PrivateSetter;
 
 @Primary
-@Profile("test")
+@Profile("concurrent-test")
 @Repository
 public class StoreMemoryRepository extends StoreBaseMemoryRepository {
 	
