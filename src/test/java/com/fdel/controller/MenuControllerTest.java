@@ -30,7 +30,7 @@ import com.fdel.service.MenuService;
 
 @Transactional
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles("concurrent-test")
 class MenuControllerTest {
 	
 	@Autowired

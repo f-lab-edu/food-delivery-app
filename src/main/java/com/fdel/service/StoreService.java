@@ -5,6 +5,7 @@ import static com.fdel.exception.message.StoreMessage.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
@@ -12,7 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fdel.dto.store.StoreDto;
 import com.fdel.entity.Store;
+import com.fdel.entity.RestaurantType;
+import com.fdel.entity.StoreRestaurantType;
+import com.fdel.repository.RestaurantTypeRepository;
 import com.fdel.repository.StoreRepository;
+import com.fdel.repository.StoreRestaurantTypeRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +27,8 @@ import lombok.RequiredArgsConstructor;
 public class StoreService {
 
 	private final StoreRepository storeRepository;
+	private final RestaurantTypeRepository restaurantTypeRepository;
+	private final StoreRestaurantTypeRepository storeRestaurantTypeRepository;
 
   	@Transactional
   	public void regist(StoreDto storeDto) {
@@ -32,10 +39,7 @@ public class StoreService {
 
   	@Transactional
   	public void update(StoreDto storeDto) {
-  		Store store = storeRepository
-			.findById(storeDto.getId())
-			.orElseThrow(() -> 
-				new EntityNotFoundException(STORE_ENTITY_NOT_FOUND.getMessage()));
+  		Store store = findStoreEntityById(storeDto.getId());
   		store.updater()
   			.name(storeDto.getName())
   			.address(storeDto.getAddress())
@@ -45,10 +49,7 @@ public class StoreService {
 
   	@Transactional
   	public void delete (Long storeId) {
-  		Store store = storeRepository
-			.findById(storeId)
-			.orElseThrow(() -> 
-        		new EntityNotFoundException(STORE_ENTITY_NOT_FOUND.getMessage()));
+  		Store store = findStoreEntityById(storeId);
     	storeRepository.delete(store);
   	}
 
@@ -61,11 +62,25 @@ public class StoreService {
   	}
 
   	public StoreDto findById(Long storeId) {
-  		Store store = storeRepository
+  		Store store = findStoreEntityById(storeId);
+    	return new StoreDto(store);
+  	}
+
+  	@Transactional
+  	public void addAndRegistRestaurantType(Long storeId, RestaurantType.Name restaruantTypeName) {
+  		Store store = findStoreEntityById(storeId);
+  		RestaurantType restaurantType = new RestaurantType(restaruantTypeName);
+  		restaurantTypeRepository.save(restaurantType);
+  		StoreRestaurantType storeRestaurantType = new StoreRestaurantType(store, restaurantType);
+  		storeRestaurantTypeRepository.save(storeRestaurantType);
+ 		store.updater().addStoreRestaurantType(storeRestaurantType).update();
+  	}
+  	
+	private Store findStoreEntityById(Long storeId) {
+		return storeRepository
 			.findById(storeId)
 			.orElseThrow(() -> 
 				new EntityNotFoundException(STORE_ENTITY_NOT_FOUND.getMessage()));
-    	return new StoreDto(store);
-  	}
+	}
 
 }

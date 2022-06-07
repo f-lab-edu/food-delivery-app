@@ -17,7 +17,7 @@ import com.fdel.repository.memoryRepository.PrivateSetter;
 /*
  * 병렬로 테스트 하기 위해 만든 메모리 레포지토리입니다.
  */
-@Profile("test")
+@Profile("concurrent-test")
 @Primary
 @Repository
 public class MenuMemoryRepository extends MenuBaseMemoryRepository{

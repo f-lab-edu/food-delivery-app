@@ -19,6 +19,7 @@ import com.fdel.repository.converter.UserRolesConverter;
 import com.fdel.service.auth.provider.Provider;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseTimeEntity implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
