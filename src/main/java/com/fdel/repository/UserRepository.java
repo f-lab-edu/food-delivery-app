@@ -3,7 +3,6 @@ package com.fdel.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import com.fdel.entity.User;
 
@@ -12,7 +11,6 @@ import com.fdel.entity.User;
  * 인터페이스지만 spring data jpa에 의해 구체타입으로 변환됩니다.
  * 쿼리는 메서드 이름을 통해 약속된 방식으로 만들어집니다. 
  */
-@Repository
 public interface UserRepository 
 		extends JpaRepository<User, Long>{
 	

@@ -1,7 +1,13 @@
 package com.fdel.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.session.Session;
 import org.springframework.session.data.redis.RedisIndexedSessionRepository;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
@@ -30,7 +36,31 @@ import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 @Configuration
 public class RedisSessionConfig {
 
-   @Bean
+	// lettuce
+	@Qualifier("redisSessionConnectionFactory")
+    @Bean
+    public RedisConnectionFactory redisSessionConnectionFactory(
+    		@Qualifier("redisSessionServerProperties") RedisProperties redisPorperties) {
+        return new LettuceConnectionFactory(redisPorperties.getHost(), redisPorperties.getPort());
+    }
+	
+	@Qualifier("redisSessionTemplate")
+	@Bean
+    public RedisTemplate<Object, Object> redisSessionTemplate(
+    		@Qualifier("redisSessionConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        return redisTemplate;
+    }
+
+	@Primary
+	@Bean
+	public RedisIndexedSessionRepository redisIndexedSessionRepository(
+			@Qualifier("redisSessionTemplate") RedisTemplate<Object, Object> redisTemplate) {
+		return new RedisIndexedSessionRepository(redisTemplate);
+	}
+	
+    @Bean
     public SpringSessionBackedSessionRegistry<? extends Session> springSessionBackedSessionRegistry(
     		RedisIndexedSessionRepository redisIndexedSessionRepository) {
         return new SpringSessionBackedSessionRegistry<>(redisIndexedSessionRepository);
